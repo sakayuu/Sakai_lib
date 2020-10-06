@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine_h">
+      <UniqueIdentifier>{1e5b82f1-a6d5-426b-be2d-8fa2d358b073}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine">
+      <UniqueIdentifier>{16f763b2-b02b-4e3e-a739-0c04589e22b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Graphic">
+      <UniqueIdentifier>{7e955eff-7013-4c03-bbed-8cd14f5b8b0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Graphic_h">
+      <UniqueIdentifier>{49537fb1-4d46-4860-9f96-aa547f155dfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Scene_h">
+      <UniqueIdentifier>{fc44107c-2496-41ab-aa13-e0e7be73dd11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Scene">
+      <UniqueIdentifier>{ceebb509-ed4d-48fc-a993-70bf19c97e21}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\main.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Engine.cpp">
+      <Filter>ソース ファイル\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Graphics.cpp">
+      <Filter>ソース ファイル\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Input.cpp">
+      <Filter>ソース ファイル\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Window.cpp">
+      <Filter>ソース ファイル\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Dx12.cpp">
+      <Filter>ソース ファイル\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\FramerateFix.cpp">
+      <Filter>ソース ファイル\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphic\Sprite.cpp">
+      <Filter>ソース ファイル\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\Scene.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\Engine\Engine.h">
+      <Filter>ヘッダー ファイル\Engine_h</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Graphics.h">
+      <Filter>ヘッダー ファイル\Engine_h</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Input.h">
+      <Filter>ヘッダー ファイル\Engine_h</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Window.h">
+      <Filter>ヘッダー ファイル\Engine_h</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Dx12.h">
+      <Filter>ヘッダー ファイル\Engine_h</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\FramerateFix.h">
+      <Filter>ヘッダー ファイル\Engine_h</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphic\Sprite.h">
+      <Filter>ヘッダー ファイル\Graphic_h</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\Scene.h">
+      <Filter>ヘッダー ファイル\Scene_h</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Easing.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Source\Shader\SpritePixelShader.hlsl">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Source\Shader\SpriteVertexShader.hlsl">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Source\Shader\BasicPixelShader.hlsl">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Source\Shader\BasicVertexShader.hlsl">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Source\Shader\SpriteShaderHeader.hlsli">
+      <Filter>リソース ファイル</Filter>
+    </None>
+    <None Include="Source\Shader\BasicShaderHeader.hlsli">
+      <Filter>リソース ファイル</Filter>
+    </None>
+  </ItemGroup>
+</Project>
