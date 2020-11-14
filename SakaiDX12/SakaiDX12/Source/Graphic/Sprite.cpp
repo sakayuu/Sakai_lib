@@ -230,9 +230,11 @@ bool Sprite::LoadTexture(UINT texnumber, const wchar_t* filename)
 		(UINT16)metadata.mipLevels
 	);
 
+	//無いと動かない
+	auto HEAP_PROPERTIES = CD3DX12_HEAP_PROPERTIES(D3D12_CPU_PAGE_PROPERTY_WRITE_BACK, D3D12_MEMORY_POOL_L0);
 	// テクスチャ用バッファの生成
 	result = device->CreateCommittedResource(
-		&CD3DX12_HEAP_PROPERTIES(D3D12_CPU_PAGE_PROPERTY_WRITE_BACK, D3D12_MEMORY_POOL_L0),
+		&HEAP_PROPERTIES,
 		D3D12_HEAP_FLAG_NONE,
 		&texresDesc,
 		D3D12_RESOURCE_STATE_GENERIC_READ, // テクスチャ用指定
@@ -344,11 +346,14 @@ bool Sprite::Initialize()
 
 	HRESULT result = S_FALSE;
 
+	//無いと動かない
+	auto HEAP_PROPERTIES = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+	auto RESOURCE_DESC_Buffer = CD3DX12_RESOURCE_DESC::Buffer(sizeof(VertexPosUv) * vertNum);
 	// 頂点バッファ生成
 	result = device->CreateCommittedResource(
-		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
+		&HEAP_PROPERTIES,
 		D3D12_HEAP_FLAG_NONE,
-		&CD3DX12_RESOURCE_DESC::Buffer(sizeof(VertexPosUv) * vertNum),
+		&RESOURCE_DESC_Buffer,
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&vertBuff));
@@ -365,11 +370,14 @@ bool Sprite::Initialize()
 	vbView.SizeInBytes = sizeof(VertexPosUv) * 4;
 	vbView.StrideInBytes = sizeof(VertexPosUv);
 
+	//無いと動かない
+	HEAP_PROPERTIES = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+	RESOURCE_DESC_Buffer = CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferData) + 0xff) & ~0xff);
 	// 定数バッファの生成
 	result = device->CreateCommittedResource(
-		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD), 	// アップロード可能
+		&HEAP_PROPERTIES, 	// アップロード可能
 		D3D12_HEAP_FLAG_NONE,
-		&CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferData) + 0xff) & ~0xff),
+		&RESOURCE_DESC_Buffer,
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&constBuff));

@@ -55,7 +55,7 @@ void Engine::Run()
 {
 	//whileの外で一度ウィンドウを表示
 
-	FPS* fpsFix = new FPS(); //FPS固定クラス
+	FPS* fpsFix = new FPS(60); //FPS固定クラス
 	MSG msg = {};
 	scene = new GameScene();
 	scene->Initialize(dx_Init, input);

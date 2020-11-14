@@ -35,9 +35,9 @@ void FPS::TimeAdjustment()
 	}
 	fps = 1 / frameTime;
 
-	//std::stringstream stream;
-	//stream << std::to_string(fps).c_str() << " FPS" << std::endl;
-	//OutputDebugString(stream.str().c_str());
+	std::stringstream stream;
+	stream << std::to_string(fps).c_str() << " FPS" << std::endl;
+	OutputDebugString(stream.str().c_str());
 
 	mTimeStart = mTimeEnd;
 }

@@ -367,11 +367,14 @@ HRESULT DX_Init::CreateSceneView()
 	DXGI_SWAP_CHAIN_DESC1 desc = {};
 	auto result = _swapchain->GetDesc1(&desc);
 
+	//無いと動かない
+	auto HEAP_PROPERTIES = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+	auto RESOURCE_DESC_Buffer = CD3DX12_RESOURCE_DESC::Buffer((sizeof(SceneData) + 0xff) & ~0xff);
 	//定数バッファ作成
 	result = _dev->CreateCommittedResource(
-		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
+		&HEAP_PROPERTIES,
 		D3D12_HEAP_FLAG_NONE,
-		&CD3DX12_RESOURCE_DESC::Buffer((sizeof(SceneData) + 0xff) & ~0xff),
+		&RESOURCE_DESC_Buffer,
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(_sceneConstBuff.ReleaseAndGetAddressOf())
@@ -488,10 +491,13 @@ void DX_Init::BeginDraw()
 	ClearRenderTarget();
 	ClearDepthBuffer();
 
+	//無いと動かない
+	auto VIEWPORT = CD3DX12_VIEWPORT(0.0f, 0.0f, Window::window_width, Window::window_height);
+	auto RECT = CD3DX12_RECT(0, 0, Window::window_width, Window::window_height);
 	// ビューポートの設定
-	_cmdList->RSSetViewports(1, &CD3DX12_VIEWPORT(0.0f, 0.0f, Window::window_width, Window::window_height));
+	_cmdList->RSSetViewports(1, &VIEWPORT);
 	// シザリング矩形の設定
-	_cmdList->RSSetScissorRects(1, &CD3DX12_RECT(0, 0, Window::window_width, Window::window_height));
+	_cmdList->RSSetScissorRects(1, &RECT);
 }
 
 void DX_Init::SetScene()

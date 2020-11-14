@@ -32,7 +32,7 @@ void GameScene::Initialize(DX_Init* dx_Init, Input* input)
 	//debugText.Initialize(debugTextTexNumber);
 
 	// テクスチャ読み込み
-	if (!Sprite::LoadTexture(1, L"Resources/Textures/texture.png")) {
+	if (!Sprite::LoadTexture(1, L"Resources/Textures/Sayu.png")) {
 		assert(0);
 		return;
 	}

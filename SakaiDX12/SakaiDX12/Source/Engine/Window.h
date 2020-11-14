@@ -7,7 +7,7 @@ public: //静的メンバ変数
 #pragma region ウィンドウ定数
 	static const unsigned int window_width = 1280; //ウィンドウ横幅
 	static const unsigned int window_height = 720; //ウィンドウ縦幅
-	static const wchar_t windowClassName[];        //ウィンドウクラス名
+	static const char windowClassName[];        //ウィンドウクラス名
 #pragma endregion
 
 public: //静的メンバ関数

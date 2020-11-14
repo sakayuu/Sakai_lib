@@ -1,6 +1,6 @@
 ﻿#include "Window.h"
 
-const wchar_t Window::windowClassName[] = L"サカイライブラリ";
+const char Window::windowClassName[] = "サカイライブラリ";
 
 LRESULT Window::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
@@ -57,7 +57,7 @@ bool Window::ProcessMessage()
 	if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) //メッセージがある？
 	{
 		TranslateMessage(&msg); //キー入力メッセージの処理
-		DispatchMessage(&msg); //ウィンドウプロシージャにメッセージを送る
+		DispatchMessage(&msg);  //ウィンドウプロシージャにメッセージを送る
 	}
 
 	if (msg.message == WM_QUIT) //終了メッセージが来たらループを抜ける
