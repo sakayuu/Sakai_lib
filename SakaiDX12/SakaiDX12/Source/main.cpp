@@ -10,5 +10,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	engine.Run();
 	engine.Terminate();
+
 	return 0;
 }

@@ -33,6 +33,24 @@
     <ClCompile Include="Source\Graphic\Sprite.cpp">
       <Filter>ソース ファイル\Graphic</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Graphic\Mesh.cpp">
+      <Filter>ソース ファイル\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphic\Model.cpp">
+      <Filter>ソース ファイル\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphic\Material.cpp">
+      <Filter>ソース ファイル\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphic\ParticleManager.cpp">
+      <Filter>ソース ファイル\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphic\Camera.cpp">
+      <Filter>ソース ファイル\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphic\DebugCamera.cpp">
+      <Filter>ソース ファイル\Graphic</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Engine\FramerateFix.cpp">
       <Filter>ソース ファイル\Engine</Filter>
     </ClCompile>
@@ -59,8 +77,26 @@
     <ClInclude Include="Source\Graphic\Sprite.h">
       <Filter>ソース ファイル\Graphic</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Engine.h">
-      <Filter>ソース ファイル\Engine</Filter>
+    <ClInclude Include="Source\Easing.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphic\Mesh.h">
+      <Filter>ソース ファイル\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphic\Model.h">
+      <Filter>ソース ファイル\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphic\Material.h">
+      <Filter>ソース ファイル\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphic\ParticleManager.h">
+      <Filter>ソース ファイル\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphic\Camera.h">
+      <Filter>ソース ファイル\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphic\DebugCamera.h">
+      <Filter>ソース ファイル\Graphic</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\FramerateFix.h">
       <Filter>ソース ファイル\Engine</Filter>
@@ -77,8 +113,8 @@
     <ClInclude Include="Source\Engine\Dx12.h">
       <Filter>ソース ファイル\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Easing.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Source\Engine\Engine.h">
+      <Filter>ソース ファイル\Engine</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

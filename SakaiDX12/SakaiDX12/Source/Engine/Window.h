@@ -5,8 +5,8 @@ class Window
 {
 public: //静的メンバ変数
 #pragma region ウィンドウ定数
-	static const unsigned int window_width = 1280; //ウィンドウ横幅
-	static const unsigned int window_height = 720; //ウィンドウ縦幅
+	static const int window_width = 1280; //ウィンドウ横幅
+	static const int window_height = 720; //ウィンドウ縦幅
 	static const char windowClassName[];        //ウィンドウクラス名
 #pragma endregion
 
@@ -26,7 +26,7 @@ public: //メンバ関数
 	/// ウィンドウ作成
 	/// </summary>
 	void CreateGameWindow();
-	
+
 	/// <summary>
 	/// ウィンドウの破棄
 	/// </summary>

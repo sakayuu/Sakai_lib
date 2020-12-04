@@ -7,7 +7,6 @@ class Engine
 {
 private:
 	Window* window = nullptr;
-	HWND _hwnd;
 	
 	/// <summary>
 	/// ゲームシーン用
@@ -23,24 +22,22 @@ private:
 	Engine();
 	Engine(const Engine&) = delete;
 	void operator= (const Engine&) = delete;
+
 public:
 	//Engineのシングルトンインスタンスを得る
 	static Engine& Instance();
 
 	//初期化
 	bool Init();
-	
+
 	// ループ起動
 	void Run();
 
 	//描画
-	void Draw();
+	//void Draw();
 
 	//後処理
 	void Terminate();
 
-	SIZE GetWindowSize()const;
-
 	~Engine();
-
 };

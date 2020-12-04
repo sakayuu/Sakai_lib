@@ -165,6 +165,12 @@
     <ClCompile Include="Source\Engine\Graphics.cpp" />
     <ClCompile Include="Source\Engine\Input.cpp" />
     <ClCompile Include="Source\Engine\Window.cpp" />
+    <ClCompile Include="Source\Graphic\Camera.cpp" />
+    <ClCompile Include="Source\Graphic\DebugCamera.cpp" />
+    <ClCompile Include="Source\Graphic\Material.cpp" />
+    <ClCompile Include="Source\Graphic\Mesh.cpp" />
+    <ClCompile Include="Source\Graphic\Model.cpp" />
+    <ClCompile Include="Source\Graphic\ParticleManager.cpp" />
     <ClCompile Include="Source\Graphic\Sprite.cpp" />
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Scene\Scene.cpp" />
@@ -177,6 +183,12 @@
     <ClInclude Include="Source\Engine\Graphics.h" />
     <ClInclude Include="Source\Engine\Input.h" />
     <ClInclude Include="Source\Engine\Window.h" />
+    <ClInclude Include="Source\Graphic\Camera.h" />
+    <ClInclude Include="Source\Graphic\DebugCamera.h" />
+    <ClInclude Include="Source\Graphic\Material.h" />
+    <ClInclude Include="Source\Graphic\Mesh.h" />
+    <ClInclude Include="Source\Graphic\Model.h" />
+    <ClInclude Include="Source\Graphic\ParticleManager.h" />
     <ClInclude Include="Source\Graphic\Sprite.h" />
     <ClInclude Include="Source\Scene\Scene.h" />
   </ItemGroup>
