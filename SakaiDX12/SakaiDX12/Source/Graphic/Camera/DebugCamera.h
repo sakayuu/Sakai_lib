@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "Camera.h"
 //#include "Input.h"
-#include "../Engine/Input.h"
+#include "../SakaiDX12/Source/Engine/Input.h"
 
 /// <summary>
 /// デバッグ用カメラ

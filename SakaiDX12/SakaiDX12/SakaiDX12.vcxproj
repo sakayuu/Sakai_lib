@@ -162,16 +162,17 @@
     <ClCompile Include="Source\Engine\Dx12.cpp" />
     <ClCompile Include="Source\Engine\Engine.cpp" />
     <ClCompile Include="Source\Engine\FramerateFix.cpp" />
-    <ClCompile Include="Source\Engine\Graphics.cpp" />
     <ClCompile Include="Source\Engine\Input.cpp" />
     <ClCompile Include="Source\Engine\Window.cpp" />
-    <ClCompile Include="Source\Graphic\Camera.cpp" />
-    <ClCompile Include="Source\Graphic\DebugCamera.cpp" />
-    <ClCompile Include="Source\Graphic\Material.cpp" />
-    <ClCompile Include="Source\Graphic\Mesh.cpp" />
-    <ClCompile Include="Source\Graphic\Model.cpp" />
-    <ClCompile Include="Source\Graphic\ParticleManager.cpp" />
-    <ClCompile Include="Source\Graphic\Sprite.cpp" />
+    <ClCompile Include="Source\Graphic\2D\Sprite.cpp" />
+    <ClCompile Include="Source\Graphic\3D\Material.cpp" />
+    <ClCompile Include="Source\Graphic\3D\Mesh.cpp" />
+    <ClCompile Include="Source\Graphic\3D\Model.cpp" />
+    <ClCompile Include="Source\Graphic\3D\Object3d.cpp" />
+    <ClCompile Include="Source\Graphic\3D\ParticleManager.cpp" />
+    <ClCompile Include="Source\Graphic\Camera\Camera.cpp" />
+    <ClCompile Include="Source\Graphic\Camera\DebugCamera.cpp" />
+    <ClCompile Include="Source\Graphic\Light\Light.cpp" />
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Scene\Scene.cpp" />
   </ItemGroup>
@@ -180,16 +181,17 @@
     <ClInclude Include="Source\Engine\Dx12.h" />
     <ClInclude Include="Source\Engine\Engine.h" />
     <ClInclude Include="Source\Engine\FramerateFix.h" />
-    <ClInclude Include="Source\Engine\Graphics.h" />
     <ClInclude Include="Source\Engine\Input.h" />
     <ClInclude Include="Source\Engine\Window.h" />
-    <ClInclude Include="Source\Graphic\Camera.h" />
-    <ClInclude Include="Source\Graphic\DebugCamera.h" />
-    <ClInclude Include="Source\Graphic\Material.h" />
-    <ClInclude Include="Source\Graphic\Mesh.h" />
-    <ClInclude Include="Source\Graphic\Model.h" />
-    <ClInclude Include="Source\Graphic\ParticleManager.h" />
-    <ClInclude Include="Source\Graphic\Sprite.h" />
+    <ClInclude Include="Source\Graphic\2D\Sprite.h" />
+    <ClInclude Include="Source\Graphic\3D\Material.h" />
+    <ClInclude Include="Source\Graphic\3D\Mesh.h" />
+    <ClInclude Include="Source\Graphic\3D\Model.h" />
+    <ClInclude Include="Source\Graphic\3D\Object3d.h" />
+    <ClInclude Include="Source\Graphic\3D\ParticleManager.h" />
+    <ClInclude Include="Source\Graphic\Camera\Camera.h" />
+    <ClInclude Include="Source\Graphic\Camera\DebugCamera.h" />
+    <ClInclude Include="Source\Graphic\Light\Light.h" />
     <ClInclude Include="Source\Scene\Scene.h" />
   </ItemGroup>
   <ItemGroup>

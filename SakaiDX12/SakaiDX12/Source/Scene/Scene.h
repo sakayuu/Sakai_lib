@@ -3,7 +3,7 @@
 //#include "SafeDelete.h"
 #include "../Engine/Dx12.h"
 #include "../Engine/Input.h"
-#include "../Graphic/Sprite.h"
+#include "../Graphic/2D/Sprite.h"
 #include "../Engine/Window.h"
 #include <DirectXMath.h>
 //#include "Object3d.h"

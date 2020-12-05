@@ -1,13 +1,13 @@
 ﻿#include "Window.h"
 #include "Dx12.h"
-#include "../Graphic/Sprite.h"
+#include "../Graphic/2D/Sprite.h"
 #include "../Scene/Scene.h"
 
 class Engine
 {
 private:
 	Window* window = nullptr;
-	
+
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>

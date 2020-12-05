@@ -7,7 +7,7 @@
 #include <d3dx12.h>
 #include <forward_list>
 
-#include "Camera.h"
+#include "../Camera/Camera.h"
 
 /// <summary>
 /// パーティクルマネージャ

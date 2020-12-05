@@ -8,8 +8,8 @@
 #include <string>
 
 #include "Model.h"
-#include "Camera.h"
-#include "Light.h"
+#include "../Camera/Camera.h"
+#include "../Light/Light.h"
 
 /// <summary>
 /// 3Dオブジェクト

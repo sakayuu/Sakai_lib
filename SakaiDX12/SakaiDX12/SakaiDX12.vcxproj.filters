@@ -22,6 +22,18 @@
     <Filter Include="ソース ファイル\Scene">
       <UniqueIdentifier>{ceebb509-ed4d-48fc-a993-70bf19c97e21}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Graphic\3D">
+      <UniqueIdentifier>{f2f940c5-8b07-4248-b2f1-8461853a47b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Graphic\2D">
+      <UniqueIdentifier>{d2f63c07-0555-4a4b-9e63-9b7d8b4c6e81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Graphic\Camera">
+      <UniqueIdentifier>{aca368b8-0b43-48cd-8cdd-2e6ad58fe41f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Graphic\Light">
+      <UniqueIdentifier>{859937fd-36e3-499f-aa29-96042fd306b5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp">
@@ -30,31 +42,7 @@
     <ClCompile Include="Source\Scene\Scene.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Graphic\Sprite.cpp">
-      <Filter>ソース ファイル\Graphic</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Graphic\Mesh.cpp">
-      <Filter>ソース ファイル\Graphic</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Graphic\Model.cpp">
-      <Filter>ソース ファイル\Graphic</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Graphic\Material.cpp">
-      <Filter>ソース ファイル\Graphic</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Graphic\ParticleManager.cpp">
-      <Filter>ソース ファイル\Graphic</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Graphic\Camera.cpp">
-      <Filter>ソース ファイル\Graphic</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Graphic\DebugCamera.cpp">
-      <Filter>ソース ファイル\Graphic</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Engine\FramerateFix.cpp">
-      <Filter>ソース ファイル\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Engine\Graphics.cpp">
       <Filter>ソース ファイル\Engine</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Input.cpp">
@@ -69,39 +57,42 @@
     <ClCompile Include="Source\Engine\Engine.cpp">
       <Filter>ソース ファイル\Engine</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Graphic\3D\Object3d.cpp">
+      <Filter>ソース ファイル\Graphic\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphic\3D\ParticleManager.cpp">
+      <Filter>ソース ファイル\Graphic\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphic\3D\Material.cpp">
+      <Filter>ソース ファイル\Graphic\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphic\3D\Mesh.cpp">
+      <Filter>ソース ファイル\Graphic\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphic\3D\Model.cpp">
+      <Filter>ソース ファイル\Graphic\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphic\2D\Sprite.cpp">
+      <Filter>ソース ファイル\Graphic\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphic\Camera\Camera.cpp">
+      <Filter>ソース ファイル\Graphic\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphic\Camera\DebugCamera.cpp">
+      <Filter>ソース ファイル\Graphic\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphic\Light\Light.cpp">
+      <Filter>ソース ファイル\Graphic\Light</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Scene\Scene.h">
       <Filter>ソース ファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Graphic\Sprite.h">
-      <Filter>ソース ファイル\Graphic</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Easing.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Graphic\Mesh.h">
-      <Filter>ソース ファイル\Graphic</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Graphic\Model.h">
-      <Filter>ソース ファイル\Graphic</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Graphic\Material.h">
-      <Filter>ソース ファイル\Graphic</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Graphic\ParticleManager.h">
-      <Filter>ソース ファイル\Graphic</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Graphic\Camera.h">
-      <Filter>ソース ファイル\Graphic</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Graphic\DebugCamera.h">
-      <Filter>ソース ファイル\Graphic</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Engine\FramerateFix.h">
-      <Filter>ソース ファイル\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\Graphics.h">
       <Filter>ソース ファイル\Engine</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Input.h">
@@ -115,6 +106,33 @@
     </ClInclude>
     <ClInclude Include="Source\Engine\Engine.h">
       <Filter>ソース ファイル\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphic\3D\Model.h">
+      <Filter>ソース ファイル\Graphic\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphic\3D\Object3d.h">
+      <Filter>ソース ファイル\Graphic\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphic\3D\ParticleManager.h">
+      <Filter>ソース ファイル\Graphic\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphic\3D\Material.h">
+      <Filter>ソース ファイル\Graphic\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphic\3D\Mesh.h">
+      <Filter>ソース ファイル\Graphic\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphic\2D\Sprite.h">
+      <Filter>ソース ファイル\Graphic\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphic\Camera\Camera.h">
+      <Filter>ソース ファイル\Graphic\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphic\Camera\DebugCamera.h">
+      <Filter>ソース ファイル\Graphic\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphic\Light\Light.h">
+      <Filter>ソース ファイル\Graphic\Light</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
