@@ -34,18 +34,18 @@
     <Filter Include="ソース ファイル\Graphic\Light">
       <UniqueIdentifier>{859937fd-36e3-499f-aa29-96042fd306b5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Sound">
+      <UniqueIdentifier>{3e109c1a-4cfd-49a2-a7f8-c89f6f8a099c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Input">
+      <UniqueIdentifier>{51f2bf43-3db2-4b20-ab53-9f040cbedba1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Scene\Scene.cpp">
-      <Filter>ソース ファイル\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Engine\FramerateFix.cpp">
-      <Filter>ソース ファイル\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Engine\Input.cpp">
       <Filter>ソース ファイル\Engine</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Window.cpp">
@@ -84,6 +84,27 @@
     <ClCompile Include="Source\Graphic\Light\Light.cpp">
       <Filter>ソース ファイル\Graphic\Light</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Sound\Audio.cpp">
+      <Filter>ソース ファイル\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Input\Input.cpp">
+      <Filter>ソース ファイル\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\GameOverScene.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\GameScene.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\HelpScene.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\GameClearScene.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphic\2D\DebugText.cpp">
+      <Filter>ソース ファイル\Graphic\2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Scene\Scene.h">
@@ -93,9 +114,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\FramerateFix.h">
-      <Filter>ソース ファイル\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\Input.h">
       <Filter>ソース ファイル\Engine</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Window.h">
@@ -133,6 +151,30 @@
     </ClInclude>
     <ClInclude Include="Source\Graphic\Light\Light.h">
       <Filter>ソース ファイル\Graphic\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Sound\Audio.h">
+      <Filter>ソース ファイル\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Input\Input.h">
+      <Filter>ソース ファイル\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\GameOverScene.h">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\GameScene.h">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\HelpScene.h">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\GameClearScene.h">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\SafeDelete.h">
+      <Filter>ソース ファイル\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphic\2D\DebugText.h">
+      <Filter>ソース ファイル\Graphic\2D</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

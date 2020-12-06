@@ -1,6 +1,5 @@
 ﻿#include "Window.h"
-#include "Graphics.h"
-#include "Input.h"
+#include "../Input/Input.h"
 #include "Engine.h"
 #include "FramerateFix.h"
 
@@ -18,11 +17,8 @@ bool Engine::Init()
 	dx_Init = new DX_Init();
 	input = new Input();
 
-	//ウィンドウ作成
-	window->CreateGameWindow();
-
-	//DirectX初期化
-	dx_Init->Initialize(window);
+	window->CreateGameWindow();  //ウィンドウ作成
+	dx_Init->Initialize(window); //DirectX初期化
 
 	// 入力の初期化
 	if (!input->Initialize(window->GetInstance(), window->GetHwnd())) {
@@ -35,23 +31,12 @@ bool Engine::Init()
 		return 1;
 	}
 
-	/*if (InitGraphics() == false)
-	{
-		return false;
-	}*/
-
-	/*if (InitInput() == false)
-	{
-		return false;
-	}*/
-
 	return true;
 }
 
 void Engine::Run()
 {
 	FPS* fpsFix = new FPS(60); //FPS固定クラス
-	MSG msg = {};
 
 	scene = new GameScene();
 	scene->Initialize(dx_Init, input);
@@ -77,14 +62,15 @@ void Engine::Run()
 
 		fpsFix->TimeAdjustment();
 	}
+	safe_delete(fpsFix);
 }
 
 void Engine::Terminate()
 {
-	delete(scene);
-	delete(input);
-	delete(dx_Init);
+	safe_delete(scene);
+	safe_delete(input);
+	safe_delete(dx_Init);
 
 	window->TerminateGameWindow();
-	delete(window);
+	safe_delete(window);
 }

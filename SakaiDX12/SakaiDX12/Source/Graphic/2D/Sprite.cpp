@@ -32,7 +32,7 @@ bool Sprite::StaticInitialize(ID3D12Device* device, int window_width, int window
 	descriptorHandleIncrementSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 
 	HRESULT result = S_FALSE;
-	ComPtr<ID3DBlob> vsBlob; // 頂点シェーダオブジェクト
+	ComPtr<ID3DBlob> vsBlob;    // 頂点シェーダオブジェクト
 	ComPtr<ID3DBlob> psBlob;	// ピクセルシェーダオブジェクト
 	ComPtr<ID3DBlob> errorBlob; // エラーオブジェクト
 
@@ -160,27 +160,17 @@ bool Sprite::StaticInitialize(ID3D12Device* device, int window_width, int window
 	ComPtr<ID3DBlob> rootSigBlob;
 	// バージョン自動判定のシリアライズ
 	result = D3DX12SerializeVersionedRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0, &rootSigBlob, &errorBlob);
-	if (FAILED(result)) {
-		assert(0);
-		return false;
-	}
+	assert(SUCCEEDED(result));
+	
 	// ルートシグネチャの生成
 	result = device->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignature));
-	if (FAILED(result)) {
-		assert(0);
-		return false;
-	}
-
+	assert(SUCCEEDED(result));
+	
 	gpipeline.pRootSignature = rootSignature.Get();
-
 	// グラフィックスパイプラインの生成
 	result = device->CreateGraphicsPipelineState(&gpipeline, IID_PPV_ARGS(&pipelineState));
-
-	if (FAILED(result)) {
-		assert(0);
-		return false;
-	}
-
+	assert(SUCCEEDED(result));
+	
 	// 射影行列計算
 	matProjection = XMMatrixOrthographicOffCenterLH(
 		0.0f, (float)window_width,
@@ -193,11 +183,8 @@ bool Sprite::StaticInitialize(ID3D12Device* device, int window_width, int window
 	descHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;//シェーダから見えるように
 	descHeapDesc.NumDescriptors = srvCount;
 	result = device->CreateDescriptorHeap(&descHeapDesc, IID_PPV_ARGS(&descHeap));//生成
-	if (FAILED(result)) {
-		assert(0);
-		return false;
-	}
-
+	assert(SUCCEEDED(result));
+	
 	return true;
 }
 
@@ -214,11 +201,8 @@ bool Sprite::LoadTexture(UINT texnumber, const wchar_t* filename)
 	result = LoadFromWICFile(
 		filename, WIC_FLAGS_NONE,
 		&metadata, scratchImg);
-	if (FAILED(result)) {
-		assert(0);
-		return false;
-	}
-
+	assert(SUCCEEDED(result));
+	
 	const Image* img = scratchImg.GetImage(0, 0, 0); // 生データ抽出
 
 	// リソース設定
@@ -357,11 +341,8 @@ bool Sprite::Initialize()
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&vertBuff));
-	if (FAILED(result)) {
-		assert(0);
-		return false;
-	}
-
+	assert(SUCCEEDED(result));
+	
 	// 頂点バッファへのデータ転送
 	TransferVertices();
 
@@ -381,11 +362,8 @@ bool Sprite::Initialize()
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&constBuff));
-	if (FAILED(result)) {
-		assert(0);
-		return false;
-	}
-
+	assert(SUCCEEDED(result));
+	
 	// 定数バッファにデータ転送
 	ConstBufferData* constMap = nullptr;
 	result = constBuff->Map(0, nullptr, (void**)&constMap);

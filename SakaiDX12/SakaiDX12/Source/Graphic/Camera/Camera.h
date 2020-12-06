@@ -23,24 +23,16 @@ public: // メンバ関数
 	/// <param name="window_height">画面高さ</param>
 	Camera(int window_width, int window_height);
 
-	/// <summary>
-	/// デストラクタ
-	/// </summary>
+	// デストラクタ
 	virtual ~Camera() = default;
 
-	/// <summary>
-	/// 毎フレーム更新
-	/// </summary>
+	// 毎フレーム更新
 	virtual void Update();
 
-	/// <summary>
-	/// ビュー行列を更新
-	/// </summary>
+	// ビュー行列を更新
 	void UpdateViewMatrix();
 
-	/// <summary>
-	/// 射影行列を更新
-	/// </summary>
+	// 射影行列を更新
 	void UpdateProjectionMatrix();
 
 	/// <summary>

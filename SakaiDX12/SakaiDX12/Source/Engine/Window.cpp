@@ -4,7 +4,7 @@ const char Window::windowClassName[] = "サカイライブラリ";
 
 LRESULT Window::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
-	if (msg == WM_CLOSE) {  //ウィンドウが破棄される時に呼ばれる(閉じるアイコンがクリックされた)
+	if (msg == WM_DESTROY) {  //ウィンドウが破棄される時に呼ばれる(閉じるアイコンがクリックされた)
 		PostQuitMessage(0); //OSに対し「このアプリ」の終了を通知
 		return 0;
 	}

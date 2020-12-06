@@ -11,11 +11,12 @@
 /// </summary>
 class Input
 {
-public:
+public: //サブクラス
+	//マウスの移動量
 	struct MouseMove {
-		LONG    lX;
-		LONG    lY;
-		LONG    lZ;
+		LONG lX;
+		LONG lY;
+		LONG lZ;
 	};
 
 private: // エイリアス
@@ -29,9 +30,7 @@ public: // メンバ関数
 	/// <returns>成否</returns>
 	bool Initialize(HINSTANCE hInstance, HWND hwnd);
 
-	/// <summary>
-	/// 毎フレーム処理
-	/// </summary>
+	//毎フレーム処理
 	void Update();
 
 	/// <summary>

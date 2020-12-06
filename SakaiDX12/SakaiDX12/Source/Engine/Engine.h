@@ -1,21 +1,19 @@
 ﻿#include "Window.h"
 #include "Dx12.h"
+#include "../Engine/SafeDelete.h"
 #include "../Graphic/2D/Sprite.h"
-#include "../Scene/Scene.h"
+#include "../Scene/GameScene.h"
 
 class Engine
 {
 private:
 	Window* window = nullptr;
+	DX_Init* dx_Init = nullptr;
+	Input* input = nullptr;
 
-	/// <summary>
-	/// ゲームシーン用
-	/// </summary>
 	Sprite* sprite = nullptr;
 
 	//参照が無くなれば自動で解放
-	DX_Init* dx_Init = nullptr;
-	Input* input = nullptr;
 	GameScene* scene = nullptr;
 
 	//シングルトン

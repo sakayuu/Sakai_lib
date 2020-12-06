@@ -1,7 +1,6 @@
 ﻿#pragma once
 #include "Camera.h"
-//#include "Input.h"
-#include "../SakaiDX12/Source/Engine/Input.h"
+#include "../../Input/Input.h"
 
 /// <summary>
 /// デバッグ用カメラ
@@ -9,7 +8,7 @@
 class DebugCamera :
 	public Camera
 {
-	using XMMATRIX = DirectX::XMMATRIX;
+	//using XMMATRIX = DirectX::XMMATRIX;
 public:
 	/// <summary>
 	/// コンストラクタ

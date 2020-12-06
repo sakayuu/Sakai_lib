@@ -9,52 +9,31 @@ bool Input::Initialize(HINSTANCE hInstance, HWND hwnd)
 
 	// DirectInputオブジェクトの生成	
 	result = DirectInput8Create(hInstance, DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&dinput, nullptr);
-	if (FAILED(result)) {
-		assert(0);
-		return result;
-	}
+	assert(SUCCEEDED(result));
 
 	// キーボードデバイスの生成	
 	result = dinput->CreateDevice(GUID_SysKeyboard, &devKeyboard, NULL);
-	if (FAILED(result)) {
-		assert(0);
-		return result;
-	}
+	assert(SUCCEEDED(result));
 
 	// マウスデバイスの生成	
 	result = dinput->CreateDevice(GUID_SysMouse, &devMouse, NULL);
-	if (FAILED(result)) {
-		assert(0);
-		return result;
-	}
+	assert(SUCCEEDED(result));
 
 	// 入力データ形式のセット
 	result = devKeyboard->SetDataFormat(&c_dfDIKeyboard); // 標準形式
-	if (FAILED(result)) {
-		assert(0);
-		return result;
-	}
+	assert(SUCCEEDED(result));
 
 	// 排他制御レベルのセット
 	result = devKeyboard->SetCooperativeLevel(hwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
-	if (FAILED(result)) {
-		assert(0);
-		return result;
-	}
+	assert(SUCCEEDED(result));
 
 	// 入力データ形式のセット
 	result = devMouse->SetDataFormat(&c_dfDIMouse2); // 標準形式
-	if (FAILED(result)) {
-		assert(0);
-		return result;
-	}
+	assert(SUCCEEDED(result));
 
 	// 排他制御レベルのセット
 	result = devMouse->SetCooperativeLevel(hwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
-	if (FAILED(result)) {
-		assert(0);
-		return result;
-	}
+	assert(SUCCEEDED(result));
 
 	return true;
 }
@@ -63,7 +42,8 @@ void Input::Update()
 {
 	HRESULT result;
 
-	{// キーボード
+#pragma region キーボード
+	{
 		result = devKeyboard->Acquire();	// キーボード動作開始
 
 		// 前回のキー入力を保存
@@ -72,8 +52,10 @@ void Input::Update()
 		// キーの入力
 		result = devKeyboard->GetDeviceState(sizeof(key), key);
 	}
+#pragma endregion
 
-	{// マウス
+#pragma region マウス
+	{
 		result = devMouse->Acquire();	// マウス動作開始
 
 		// 前回の入力を保存
@@ -82,6 +64,8 @@ void Input::Update()
 		// マウスの入力
 		result = devMouse->GetDeviceState(sizeof(mouseState), &mouseState);
 	}
+#pragma endregion
+
 }
 
 bool Input::PushKey(BYTE keyNumber)
@@ -164,4 +148,3 @@ Input::MouseMove Input::GetMouseMove()
 	tmp.lZ = mouseState.lZ;
 	return tmp;
 }
-

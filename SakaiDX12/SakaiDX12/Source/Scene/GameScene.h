@@ -1,21 +1,51 @@
-﻿/**
-* @file GameScene.h
-* @brief ゲーム本編シーンの関数の宣言
-*/
-#ifndef GAME_SCENE_H_
-#define GAME_SCENE_H_
+﻿#pragma once
 
-/**
-* @brief ゲーム本編シーンの更新関数@n
-* ゲーム本編シーンの仕様が実行される
-* @return 遷移先シーンID(基本はSceneId::GameSceneが返る)
-*/
-SceneId UpdateGameScene();
+#include "../Engine/Window.h"
+#include "../Engine/Dx12.h"
+#include "../Input/Input.h"
+#include "../Graphic/2D/Sprite.h"
+#include "../Scene/Scene.h"
+#include <DirectXMath.h>
 
-/**
-* @brief ゲーム本編シーンの描画関数@n
-* ゲーム本編シーンのオブジェクトを描画するための関数
-*/
-void DrawGameScene();
+//#include "Object3d.h"
+//#include "DebugText.h"
+//#include "Audio.h"
 
-#endif
+#include "../Easing.h"
+
+/// <summary>
+/// ゲームシーン
+/// </summary>
+class GameScene : public Scene
+{
+private: // 静的メンバ変数
+	static const int debugTextTexNumber = 0;
+
+public: // メンバ関数
+
+	/// <summary>
+	/// コンストクラタ
+	/// </summary>
+	GameScene();
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~GameScene();
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	void Initialize(DX_Init* dx_Init, Input* input) override;
+
+	/// <summary>
+	/// 毎フレーム処理
+	/// </summary>
+	void Update() override;
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	void Draw() override;
+
+};

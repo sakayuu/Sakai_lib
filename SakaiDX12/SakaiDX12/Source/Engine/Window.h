@@ -22,14 +22,10 @@ public: //静的メンバ関数
 	static LRESULT WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 
 public: //メンバ関数
-	/// <summary>
-	/// ウィンドウ作成
-	/// </summary>
+	//ウィンドウ作成
 	void CreateGameWindow();
 
-	/// <summary>
-	/// ウィンドウの破棄
-	/// </summary>
+	//ウィンドウの破棄
 	void TerminateGameWindow();
 
 	/// <summary>
@@ -44,8 +40,13 @@ public: //メンバ関数
 	/// <returns></returns>
 	HWND GetHwnd() { return hwnd; }
 
+	/// <summary>
+	/// 実体の取得
+	/// </summary>
+	/// <returns></returns>
 	HINSTANCE GetInstance() { return window_class.hInstance; }
-private:
+
+private: //メンバ変数
 	HWND hwnd = nullptr;
 	WNDCLASSEX window_class{};
 };

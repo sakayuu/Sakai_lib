@@ -1,54 +1,143 @@
-﻿#include <stdio.h>
-#include "../Engine/Input.h"
-#include "../Engine/Graphics.h"
-#include "../Texture/Texture.h"
-#include "GameScene.h"
+﻿#include "GameScene.h"
+#include <cassert>
+#include <iostream>
+#include <sstream>
+#include <iomanip>
+#include <limits>
 
-// ゲーム本編シーンの初期化
-void InitGameScene();
-// ゲーム本編シーンのメイン処理
-void MainGameScene();
-// ゲーム本編シーンの終了
-SceneId FinishGameScene();
+using namespace DirectX;
 
-SceneId UpdateGameScene()
+GameScene::GameScene()
 {
-	switch (GetCurrentSceneStep())
-	{
-	case SceneStep::InitStep:
-		InitGameScene();
-		break;
-	case SceneStep::MainStep:
-		MainGameScene();
-		break;
-	case SceneStep::EndStep:
-		return FinishGameScene();
-		break;
+}
+
+GameScene::~GameScene()
+{
+	safe_delete(sprite);
+}
+
+void GameScene::Initialize(DX_Init* dx_Init, Input* input)
+{
+	// nullptrチェック
+	assert(dx_Init);
+	assert(input);
+	//assert(audio);
+
+	this->dx_Init = dx_Init;
+	this->input = input;
+	//this->audio = audio;
+
+	// デバッグテキスト用テクスチャ読み込み
+	if (!Sprite::LoadTexture(debugTextTexNumber, L"Resources/Font/debugfont.png")) {
+		assert(0);
+		return;
 	}
+	// デバッグテキスト初期化
+	debugText.Initialize(debugTextTexNumber);
 
-	return SceneId::GameScene;
+	// テクスチャ読み込み
+	if (!Sprite::LoadTexture(1, L"Resources/Textures/Sayu.png")) {
+		assert(0);
+		return;
+	}
+	sprite = Sprite::Create(1, { Window::window_width / 2,Window::window_height / 2 });
+	// 背景スプライト生成
+	//spriteBG = Sprite::Create(1, { 0.0f,0.0f });
+	// 3Dオブジェクト生成
+	//object3d = Object3d::Create();
+	//object3d->Update();
+
+
 }
 
-void DrawGameScene()
+void GameScene::Update()
 {
+	// オブジェクト移動
+	if (input->PushKey(DIK_UP) || input->PushKey(DIK_DOWN) || input->PushKey(DIK_RIGHT) || input->PushKey(DIK_LEFT))
+	{
+		// 現在の座標を取得
+		XMFLOAT2 position = sprite->GetPosition();
+		Easing ease;
+		// 移動後の座標を計算
+		if (input->PushKey(DIK_UP)) { position.y += 1.0f; }
+		else if (input->PushKey(DIK_DOWN)) { position.y -= 1.0f; }
+		if (input->PushKey(DIK_RIGHT)) { position.x += 1.0f; }
+		else if (input->PushKey(DIK_LEFT)) { position.x -= 1.0f; }
+
+		// 座標の変更を反映
+		//object3d->SetPosition(position);
+		sprite->SetPosition(position);
+	}
+	std::ostringstream debugstr;
+	debugstr.str("");
+	debugstr.clear();
+	const XMFLOAT2& spritePos = sprite->GetPosition();
+	debugstr << "SpritePos("
+		<< std::fixed << std::setprecision(2)
+		<< spritePos.x << ","
+		<< spritePos.y << ")";
+	debugText.Print(debugstr.str(), 50, 50, 1.0f);
+
+	// カメラ移動
+	//if (input->PushKey(DIK_W) || input->PushKey(DIK_S) || input->PushKey(DIK_D) || input->PushKey(DIK_A))
+	//{
+	//	if (input->PushKey(DIK_W)) { Object3d::CameraMoveVector({ 0.0f,+1.0f,0.0f }); }
+	//	else if (input->PushKey(DIK_S)) { Object3d::CameraMoveVector({ 0.0f,-1.0f,0.0f }); }
+	//	if (input->PushKey(DIK_D)) { Object3d::CameraMoveVector({ +1.0f,0.0f,0.0f }); }
+	//	else if (input->PushKey(DIK_A)) { Object3d::CameraMoveVector({ -1.0f,0.0f,0.0f }); }
+	//}
+
+	//object3d->Update();
+
+	//audio->PlayWave("Resources/Alarm01.wav");
 }
 
-void InitGameScene()
+void GameScene::Draw()
 {
-	LoadTexture("Res/GameBg.png", TEXTURE_CATEGORY_GAME, GameCategoryTextureList::GameBgTex);
-	LoadTexture("Res/Enemy.png", TEXTURE_CATEGORY_GAME, GameCategoryTextureList::GameEnemyTex);
+	// コマンドリストの取得
+	ID3D12GraphicsCommandList* cmdList = dx_Init->GetCommandList();
 
-	ChangeSceneStep(SceneStep::MainStep);
+#pragma region 背景スプライト描画
+	// 背景スプライト描画前処理
+	//Sprite::PreDraw(cmdList);
+	// 背景スプライト描画
+	//spriteBG->Draw();
+
+	/// <summary>
+	/// ここに背景スプライトの描画処理を追加できる
+	/// </summary>
+
+	// スプライト描画後処理
+	//Sprite::PostDraw();
+	// 深度バッファクリア
+	dx_Init->ClearDepthBuffer();
+#pragma endregion
+
+#pragma region 3Dオブジェクト描画
+	// 3Dオブジェクト描画前処理
+	//Object3d::PreDraw(cmdList);
+
+	// 3Dオブクジェクトの描画
+	//object3d->Draw();
+
+	/// <summary>
+	/// ここに3Dオブジェクトの描画処理を追加できる
+	/// </summary>
+
+	// 3Dオブジェクト描画後処理
+	//Object3d::PostDraw();
+#pragma endregion
+
+#pragma region 前景スプライト描画
+	// 前景スプライト描画前処理
+	Sprite::PreDraw(cmdList);
+
+	// ここに前景スプライトの描画処理を追加できる
+	sprite->Draw();
+	// デバッグテキストの描画
+	debugText.DrawAll(cmdList);
+
+	// スプライト描画後処理
+	Sprite::PostDraw();
+#pragma endregion
 }
-
-void MainGameScene()
-{
-}
-
-SceneId FinishGameScene()
-{
-	ReleaseCategoryTexture(TEXTURE_CATEGORY_GAME);
-
-	return SceneId::GameScene;
-}
-

@@ -162,8 +162,8 @@
     <ClCompile Include="Source\Engine\Dx12.cpp" />
     <ClCompile Include="Source\Engine\Engine.cpp" />
     <ClCompile Include="Source\Engine\FramerateFix.cpp" />
-    <ClCompile Include="Source\Engine\Input.cpp" />
     <ClCompile Include="Source\Engine\Window.cpp" />
+    <ClCompile Include="Source\Graphic\2D\DebugText.cpp" />
     <ClCompile Include="Source\Graphic\2D\Sprite.cpp" />
     <ClCompile Include="Source\Graphic\3D\Material.cpp" />
     <ClCompile Include="Source\Graphic\3D\Mesh.cpp" />
@@ -173,16 +173,22 @@
     <ClCompile Include="Source\Graphic\Camera\Camera.cpp" />
     <ClCompile Include="Source\Graphic\Camera\DebugCamera.cpp" />
     <ClCompile Include="Source\Graphic\Light\Light.cpp" />
+    <ClCompile Include="Source\Input\Input.cpp" />
     <ClCompile Include="Source\main.cpp" />
-    <ClCompile Include="Source\Scene\Scene.cpp" />
+    <ClCompile Include="Source\Scene\GameClearScene.cpp" />
+    <ClCompile Include="Source\Scene\GameOverScene.cpp" />
+    <ClCompile Include="Source\Scene\GameScene.cpp" />
+    <ClCompile Include="Source\Scene\HelpScene.cpp" />
+    <ClCompile Include="Source\Sound\Audio.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Easing.h" />
     <ClInclude Include="Source\Engine\Dx12.h" />
     <ClInclude Include="Source\Engine\Engine.h" />
     <ClInclude Include="Source\Engine\FramerateFix.h" />
-    <ClInclude Include="Source\Engine\Input.h" />
+    <ClInclude Include="Source\Engine\SafeDelete.h" />
     <ClInclude Include="Source\Engine\Window.h" />
+    <ClInclude Include="Source\Graphic\2D\DebugText.h" />
     <ClInclude Include="Source\Graphic\2D\Sprite.h" />
     <ClInclude Include="Source\Graphic\3D\Material.h" />
     <ClInclude Include="Source\Graphic\3D\Mesh.h" />
@@ -192,7 +198,13 @@
     <ClInclude Include="Source\Graphic\Camera\Camera.h" />
     <ClInclude Include="Source\Graphic\Camera\DebugCamera.h" />
     <ClInclude Include="Source\Graphic\Light\Light.h" />
+    <ClInclude Include="Source\Input\Input.h" />
+    <ClInclude Include="Source\Scene\GameClearScene.h" />
+    <ClInclude Include="Source\Scene\GameOverScene.h" />
+    <ClInclude Include="Source\Scene\GameScene.h" />
+    <ClInclude Include="Source\Scene\HelpScene.h" />
     <ClInclude Include="Source\Scene\Scene.h" />
+    <ClInclude Include="Source\Sound\Audio.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DirectXTex\DirectXTex_Desktop_2019_Win10.vcxproj">
