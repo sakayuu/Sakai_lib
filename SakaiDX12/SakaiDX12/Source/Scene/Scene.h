@@ -7,6 +7,8 @@
 #include "../Sound/Audio.h"
 #include "../Graphic/2D/Sprite.h"
 #include "../Graphic/2D/DebugText.h"
+#include "../Graphic/3D/Object3d.h"
+#include "../Graphic/Camera/DebugCamera.h"
 #include <DirectXMath.h>
 
 /// <summary>
@@ -29,7 +31,7 @@ protected: // 静的メンバ変数
 public: // メンバ関数（純粋仮想関数）
 
 	//初期化
-	virtual void Initialize(DX_Init* dx_Init, Input* input) = 0;
+	virtual void Initialize(DX_Init* dx_Init, Input* input,Audio* audio) = 0;
 
 	//毎フレーム処理
 	virtual void Update() = 0;
@@ -41,12 +43,10 @@ protected: // メンバ変数
 	DX_Init* dx_Init = nullptr;
 	Input* input = nullptr;
 	Audio* audio = nullptr;
+	DebugCamera* camera = nullptr;
 	DebugText debugText;
 
-	/// <summary>
-	/// ゲームシーン用
-	/// </summary>
 	Sprite* sprite = nullptr;
-	//Object3d* object3d = nullptr;
+	Object3d* object3d = nullptr;
 };
 

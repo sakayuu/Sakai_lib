@@ -2,7 +2,6 @@
 #include <d3dcompiler.h>
 #include <fstream>
 #include <sstream>
-#include <string>
 #include <vector>
 
 #pragma comment(lib, "d3dcompiler.lib")
@@ -41,13 +40,13 @@ void Object3d::StaticInitialize(ID3D12Device* device, Camera* camera)
 void Object3d::CreateGraphicsPipeline()
 {
 	HRESULT result = S_FALSE;
-	ComPtr<ID3DBlob> vsBlob; // 頂点シェーダオブジェクト
+	ComPtr<ID3DBlob> vsBlob;    // 頂点シェーダオブジェクト
 	ComPtr<ID3DBlob> psBlob;    // ピクセルシェーダオブジェクト
 	ComPtr<ID3DBlob> errorBlob; // エラーオブジェクト
 
 	// 頂点シェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"OBJVertexShader.hlsl",    // シェーダファイル名
+		L"Source/Shader/OBJVertexShader.hlsl",    // シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "vs_5_0",    // エントリーポイント名、シェーダーモデル指定
@@ -70,7 +69,7 @@ void Object3d::CreateGraphicsPipeline()
 
 	// ピクセルシェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"OBJPixelShader.hlsl",    // シェーダファイル名
+		L"Source/Shader/OBJPixelShader.hlsl",    // シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "ps_5_0",    // エントリーポイント名、シェーダーモデル指定
@@ -158,11 +157,12 @@ void Object3d::CreateGraphicsPipeline()
 	descRangeSRV.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0); // t0 レジスタ
 
 	// ルートパラメータ
-	CD3DX12_ROOT_PARAMETER rootparams[4];
+	CD3DX12_ROOT_PARAMETER rootparams[5];
 	rootparams[0].InitAsConstantBufferView(0, 0, D3D12_SHADER_VISIBILITY_ALL);
 	rootparams[1].InitAsConstantBufferView(1, 0, D3D12_SHADER_VISIBILITY_ALL);
 	rootparams[2].InitAsDescriptorTable(1, &descRangeSRV, D3D12_SHADER_VISIBILITY_ALL);
 	rootparams[3].InitAsConstantBufferView(2, 0, D3D12_SHADER_VISIBILITY_ALL);
+	rootparams[4].InitAsConstantBufferView(3, 0, D3D12_SHADER_VISIBILITY_ALL);
 
 	// スタティックサンプラー
 	CD3DX12_STATIC_SAMPLER_DESC samplerDesc = CD3DX12_STATIC_SAMPLER_DESC(0);
@@ -176,18 +176,13 @@ void Object3d::CreateGraphicsPipeline()
 	result = D3DX12SerializeVersionedRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0, &rootSigBlob, &errorBlob);
 	// ルートシグネチャの生成
 	result = device->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(), IID_PPV_ARGS(&pipelineSet.rootsignature));
-	if (FAILED(result)) {
-		assert(0);
-	}
+	assert(SUCCEEDED(result));
 
 	gpipeline.pRootSignature = pipelineSet.rootsignature.Get();
 
-	// グラフィックスパイプラインの生成
+	// グラフィックスパイプラインの生成（ここが止まる2020/12/24）
 	result = device->CreateGraphicsPipelineState(&gpipeline, IID_PPV_ARGS(&pipelineSet.pipelinestate));
-
-	if (FAILED(result)) {
-		assert(0);
-	}
+	assert(SUCCEEDED(result));
 }
 
 void Object3d::PreDraw(ID3D12GraphicsCommandList* cmdList)
@@ -208,7 +203,7 @@ void Object3d::PostDraw()
 	Object3d::cmdList = nullptr;
 }
 
-Object3d* Object3d::Create(Model* model)
+Object3d* Object3d::Create()
 {
 	// 3Dオブジェクトのインスタンスを生成
 	Object3d* object3d = new Object3d();
@@ -220,10 +215,6 @@ Object3d* Object3d::Create(Model* model)
 	if (!object3d->Initialize()) {
 		delete object3d;
 		assert(0);
-	}
-
-	if (model) {
-		object3d->SetModel(model);
 	}
 
 	return object3d;
@@ -254,60 +245,73 @@ void Object3d::Update()
 {
 	assert(camera);
 
+	// モデルの割り当てがなければ更新しない
+	if (models.empty()) {
+		return;
+	}
+
 	HRESULT result;
 	XMMATRIX matScale, matRot, matTrans;
 
 	// スケール、回転、平行移動行列の計算
-	matScale = XMMatrixScaling(scale.x, scale.y, scale.z);
+	/*matScale = XMMatrixScaling(scale.x, scale.y, scale.z);
 	matRot = XMMatrixIdentity();
 	matRot *= XMMatrixRotationZ(XMConvertToRadians(rotation.z));
 	matRot *= XMMatrixRotationX(XMConvertToRadians(rotation.x));
 	matRot *= XMMatrixRotationY(XMConvertToRadians(rotation.y));
-	matTrans = XMMatrixTranslation(position.x, position.y, position.z);
+	matTrans = XMMatrixTranslation(position.x, position.y, position.z);*/
+	for (auto& m : models) {
+		matScale = XMMatrixScaling(m.second->scale.x, m.second->scale.y, m.second->scale.z);
+		matRot = XMMatrixIdentity();
+		matRot *= XMMatrixRotationZ(XMConvertToRadians(m.second->rotation.z));
+		matRot *= XMMatrixRotationX(XMConvertToRadians(m.second->rotation.x));
+		matRot *= XMMatrixRotationY(XMConvertToRadians(m.second->rotation.y));
+		matTrans = XMMatrixTranslation(m.second->position.x, m.second->position.y, m.second->position.z);
 
-	// ワールド行列の合成
-	matWorld = XMMatrixIdentity(); // 変形をリセット
-	matWorld *= matScale; // ワールド行列にスケーリングを反映
-	matWorld *= matRot; // ワールド行列に回転を反映
-	matWorld *= matTrans; // ワールド行列に平行移動を反映
+		// ワールド行列の合成
+		m.second->matWorld = XMMatrixIdentity(); // 変形をリセット
+		m.second->matWorld *= matScale; // ワールド行列にスケーリングを反映
+		m.second->matWorld *= matRot; // ワールド行列に回転を反映
+		m.second->matWorld *= matTrans; // ワールド行列に平行移動を反映
 
-	if (isBillboard) {
-		const XMMATRIX& matBillboard = camera->GetBillboardMatrix();
+		if (isBillboard) {
+			const XMMATRIX& matBillboard = camera->GetBillboardMatrix();
 
-		matWorld = XMMatrixIdentity();
-		matWorld *= matScale; // ワールド行列にスケーリングを反映
-		matWorld *= matRot; // ワールド行列に回転を反映
-		matWorld *= matBillboard;
-		matWorld *= matTrans; // ワールド行列に平行移動を反映
+			m.second->matWorld = XMMatrixIdentity();
+			m.second->matWorld *= matScale; // ワールド行列にスケーリングを反映
+			m.second->matWorld *= matRot; // ワールド行列に回転を反映
+			m.second->matWorld *= matBillboard;
+			m.second->matWorld *= matTrans; // ワールド行列に平行移動を反映
+		}
+
+		// 親オブジェクトがあれば
+		//if (parent != nullptr) {
+		//	// 親オブジェクトのワールド行列を掛ける
+		//	m.second->matWorld *= parent->matWorld;
+		//}
+
+		const XMMATRIX& matViewProjection = camera->GetViewProjectionMatrix();
+		const XMFLOAT3& cameraPos = camera->GetEye();
+
+		// 定数バッファへデータ転送
+		ConstBufferDataB0* constMap = nullptr;
+		result = constBuffB0->Map(0, nullptr, (void**)&constMap);
+		//constMap->mat = matWorld * matViewProjection;
+		constMap->viewproj = matViewProjection;
+		constMap->world = m.second->matWorld;
+		constMap->cameraPos = cameraPos;
+		constBuffB0->Unmap(0, nullptr);
 	}
-
-	// 親オブジェクトがあれば
-	if (parent != nullptr) {
-		// 親オブジェクトのワールド行列を掛ける
-		matWorld *= parent->matWorld;
-	}
-
-	const XMMATRIX& matViewProjection = camera->GetViewProjectionMatrix();
-	const XMFLOAT3& cameraPos = camera->GetEye();
-
-	// 定数バッファへデータ転送
-	ConstBufferDataB0* constMap = nullptr;
-	result = constBuffB0->Map(0, nullptr, (void**)&constMap);
-	//constMap->mat = matWorld * matViewProjection;
-	constMap->viewproj = matViewProjection;
-	constMap->world = matWorld;
-	constMap->cameraPos = cameraPos;
-	constBuffB0->Unmap(0, nullptr);
 }
 
-void Object3d::Draw()
+void Object3d::Draw(const vector<Light*>& light)
 {
 	// nullptrチェック
 	assert(device);
 	assert(Object3d::cmdList);
 
 	// モデルの割り当てがなければ描画しない
-	if (model == nullptr) {
+	if (models.empty()) {
 		return;
 	}
 
@@ -318,7 +322,41 @@ void Object3d::Draw()
 	// 定数バッファビューをセット
 	cmdList->SetGraphicsRootConstantBufferView(0, constBuffB0->GetGPUVirtualAddress());
 	// ライトの描画
-	light->Draw(cmdList, 3);
+	LightDraw(cmdList, light);
+	//light->Draw(cmdList, 3);
 	// モデル描画
-	model->Draw(cmdList);
+	for (auto& m : models) {
+		m.second->Draw(cmdList);
+	}
+
+}
+
+const XMFLOAT3& Object3d::GetPosition(const std::string& key)
+{
+	return models[key]->position;
+}
+
+const XMFLOAT3& Object3d::GetRotation(const std::string& key)
+{
+	return models[key]->rotation;
+}
+
+void Object3d::SetPosition(const std::string& key, XMFLOAT3 position)
+{
+	models[key]->position = position;
+}
+
+void Object3d::SetRotation(const std::string& key, XMFLOAT3 rotation)
+{
+	models[key]->rotation = rotation;
+}
+
+void Object3d::SetScale(const std::string& key, XMFLOAT3 scale)
+{
+	models[key]->scale = scale;
+}
+
+void Object3d::AddModel(const std::string& modelname, Model* model)
+{
+	models.emplace(modelname, model);
 }

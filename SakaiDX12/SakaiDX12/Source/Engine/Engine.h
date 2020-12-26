@@ -2,6 +2,7 @@
 #include "Dx12.h"
 #include "../Engine/SafeDelete.h"
 #include "../Graphic/2D/Sprite.h"
+#include "../Sound/Audio.h"
 #include "../Scene/GameScene.h"
 
 class Engine
@@ -10,6 +11,7 @@ private:
 	Window* window = nullptr;
 	DX_Init* dx_Init = nullptr;
 	Input* input = nullptr;
+	Audio* audio = nullptr;
 
 	Sprite* sprite = nullptr;
 
@@ -25,16 +27,19 @@ public:
 	//Engineのシングルトンインスタンスを得る
 	static Engine& Instance();
 
-	//初期化
+	// 初期化
 	bool Init();
 
 	// ループ起動
 	void Run();
 
-	//描画
-	//void Draw();
+	// 更新
+	void Update();
 
-	//後処理
+	// 描画
+	void Draw();
+
+	// 後処理
 	void Terminate();
 
 	~Engine();

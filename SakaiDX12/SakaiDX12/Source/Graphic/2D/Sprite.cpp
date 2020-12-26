@@ -161,16 +161,16 @@ bool Sprite::StaticInitialize(ID3D12Device* device, int window_width, int window
 	// バージョン自動判定のシリアライズ
 	result = D3DX12SerializeVersionedRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0, &rootSigBlob, &errorBlob);
 	assert(SUCCEEDED(result));
-	
+
 	// ルートシグネチャの生成
 	result = device->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignature));
 	assert(SUCCEEDED(result));
-	
+
 	gpipeline.pRootSignature = rootSignature.Get();
 	// グラフィックスパイプラインの生成
 	result = device->CreateGraphicsPipelineState(&gpipeline, IID_PPV_ARGS(&pipelineState));
 	assert(SUCCEEDED(result));
-	
+
 	// 射影行列計算
 	matProjection = XMMatrixOrthographicOffCenterLH(
 		0.0f, (float)window_width,
@@ -184,7 +184,7 @@ bool Sprite::StaticInitialize(ID3D12Device* device, int window_width, int window
 	descHeapDesc.NumDescriptors = srvCount;
 	result = device->CreateDescriptorHeap(&descHeapDesc, IID_PPV_ARGS(&descHeap));//生成
 	assert(SUCCEEDED(result));
-	
+
 	return true;
 }
 
@@ -198,11 +198,9 @@ bool Sprite::LoadTexture(UINT texnumber, const wchar_t* filename)
 	TexMetadata metadata{};
 	ScratchImage scratchImg{};
 
-	result = LoadFromWICFile(
-		filename, WIC_FLAGS_NONE,
-		&metadata, scratchImg);
+	result = LoadFromWICFile(filename, WIC_FLAGS_NONE, &metadata, scratchImg);
 	assert(SUCCEEDED(result));
-	
+
 	const Image* img = scratchImg.GetImage(0, 0, 0); // 生データ抽出
 
 	// リソース設定
@@ -224,10 +222,7 @@ bool Sprite::LoadTexture(UINT texnumber, const wchar_t* filename)
 		D3D12_RESOURCE_STATE_GENERIC_READ, // テクスチャ用指定
 		nullptr,
 		IID_PPV_ARGS(&texBuff[texnumber]));
-	if (FAILED(result)) {
-		assert(0);
-		return false;
-	}
+	assert(SUCCEEDED(result));
 
 	// テクスチャバッファにデータ転送
 	result = texBuff[texnumber]->WriteToSubresource(
@@ -237,10 +232,7 @@ bool Sprite::LoadTexture(UINT texnumber, const wchar_t* filename)
 		(UINT)img->rowPitch,  // 1ラインサイズ
 		(UINT)img->slicePitch // 1枚サイズ
 	);
-	if (FAILED(result)) {
-		assert(0);
-		return false;
-	}
+	assert(SUCCEEDED(result));
 
 	// シェーダリソースビュー作成
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{}; // 設定構造体
@@ -342,7 +334,7 @@ bool Sprite::Initialize()
 		nullptr,
 		IID_PPV_ARGS(&vertBuff));
 	assert(SUCCEEDED(result));
-	
+
 	// 頂点バッファへのデータ転送
 	TransferVertices();
 
@@ -363,7 +355,7 @@ bool Sprite::Initialize()
 		nullptr,
 		IID_PPV_ARGS(&constBuff));
 	assert(SUCCEEDED(result));
-	
+
 	// 定数バッファにデータ転送
 	ConstBufferData* constMap = nullptr;
 	result = constBuff->Map(0, nullptr, (void**)&constMap);
@@ -474,14 +466,13 @@ void Sprite::TransferVertices()
 	float right = (1.0f - anchorpoint.x) * size.x;
 	float top = (0.0f - anchorpoint.x) * size.y;
 	float bottom = (1.0f - anchorpoint.x) * size.y;
-	if (isFlipX)
-	{// 左右入れ替え
+
+	if (isFlipX) { // 左右入れ替え
 		left = -left;
 		right = -right;
 	}
 
-	if (isFlipY)
-	{// 上下入れ替え
+	if (isFlipY) { // 上下入れ替え
 		top = -top;
 		bottom = -bottom;
 	}

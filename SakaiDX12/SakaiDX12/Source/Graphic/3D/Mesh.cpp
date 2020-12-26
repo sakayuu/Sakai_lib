@@ -87,12 +87,8 @@ void Mesh::CreateBuffers() {
 	vbView.BufferLocation = vertBuff->GetGPUVirtualAddress();
 	vbView.SizeInBytes = sizeVB;
 	vbView.StrideInBytes = sizeof(vertices[0]);
-
-	if (FAILED(result)) {
-		assert(0);
-		return;
-	}
-
+	assert(SUCCEEDED(result));
+	
 	UINT sizeIB = static_cast<UINT>(sizeof(unsigned short) * indices.size());
 	//無いと動かない
 	HEAP_PROPERTIES = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
@@ -105,11 +101,8 @@ void Mesh::CreateBuffers() {
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&indexBuff));
-	if (FAILED(result)) {
-		assert(0);
-		return;
-	}
-
+	assert(SUCCEEDED(result));
+	
 	// インデックスバッファへのデータ転送
 	unsigned short* indexMap = nullptr;
 	result = indexBuff->Map(0, nullptr, (void**)&indexMap);

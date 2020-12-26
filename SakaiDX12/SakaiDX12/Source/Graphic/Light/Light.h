@@ -16,7 +16,7 @@ private: // エイリアス
 
 public: // サブクラス
 	// 定数バッファ用データ構造体
-	struct ConstBufferData
+	struct ConstBufferDataB2
 	{
 		XMVECTOR lightV;     //ライトへの方向を表すベクトル
 		XMFLOAT3 lightColor; //ライトの色

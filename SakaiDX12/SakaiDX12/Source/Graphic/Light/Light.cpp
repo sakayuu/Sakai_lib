@@ -30,7 +30,7 @@ void Light::Initialize() {
 
 	// 無いと動かない
 	auto HEAP_PROPERTIES = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
-	auto RESOURCE_DESC_Buffer = CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferData) + 0xff) & ~0xff);
+	auto RESOURCE_DESC_Buffer = CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferDataB2) + 0xff) & ~0xff);
 	// 定数バッファの生成
 	result = device->CreateCommittedResource(
 		&HEAP_PROPERTIES,
@@ -48,7 +48,7 @@ void Light::Initialize() {
 void Light::TransferConstBuffer() {
 	HRESULT result;
 	// 定数バッファへデータ転送
-	ConstBufferData* constMap = nullptr;
+	ConstBufferDataB2* constMap = nullptr;
 	result = constBuff->Map(0, nullptr, (void**)&constMap);
 	if (SUCCEEDED(result)) {
 		constMap->lightV = -lightDir;

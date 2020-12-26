@@ -4,6 +4,7 @@
 #include <wrl.h>
 #include <d3d12.h>
 #include <DirectXMath.h>
+#include <map>
 
 class Sprite
 {
@@ -148,9 +149,7 @@ public: // メンバ関数
 	/// <param name="texSize">テクスチャサイズ</param>
 	void SetTextureRect(XMFLOAT2 texBase, XMFLOAT2 texSize);
 
-	/// <summary>
-	/// 描画
-	/// </summary>
+	// 描画
 	void Draw();
 
 private: // メンバ変数
@@ -183,7 +182,7 @@ private: // メンバ変数
 	// テクスチャ幅、高さ
 	XMFLOAT2 texSize = { 100.0f, 100.0f };
 
-	
+	/*std::map<std::string,>*/
 
 private: // メンバ関数
 	/// <summary>
@@ -192,5 +191,5 @@ private: // メンバ関数
 	void TransferVertices();
 public:
 	const XMFLOAT2& GetPosition() { return position; }
-	
+
 };

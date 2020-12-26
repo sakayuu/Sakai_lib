@@ -6,6 +6,7 @@
 #include "../Graphic/2D/Sprite.h"
 #include "../Scene/Scene.h"
 #include <DirectXMath.h>
+#include <vector>
 
 //#include "Object3d.h"
 //#include "DebugText.h"
@@ -36,7 +37,7 @@ public: // メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(DX_Init* dx_Init, Input* input) override;
+	void Initialize(DX_Init* dx_Init, Input* input, Audio* audio) override;
 
 	/// <summary>
 	/// 毎フレーム処理
@@ -48,4 +49,10 @@ public: // メンバ関数
 	/// </summary>
 	void Draw() override;
 
+	void CreateLight(UINT num);
+
+	void LightUpdate();
+
+private:
+	std::vector<Light*> light;
 };

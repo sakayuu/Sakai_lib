@@ -16,16 +16,24 @@ GameScene::~GameScene()
 	safe_delete(sprite);
 }
 
-void GameScene::Initialize(DX_Init* dx_Init, Input* input)
+void GameScene::Initialize(DX_Init* dx_Init, Input* input, Audio* audio)
 {
 	// nullptrチェック
 	assert(dx_Init);
 	assert(input);
-	//assert(audio);
+	assert(audio);
 
 	this->dx_Init = dx_Init;
 	this->input = input;
-	//this->audio = audio;
+	this->audio = audio;
+
+	camera = new DebugCamera(Window::window_width, Window::window_height, input);
+	// 3Dオブジェクトにカメラをセット
+	Object3d::SetCamera(camera);
+
+	CreateLight(2);
+	light[0]->SetLightColor({ 1,0,0 });
+	light[1]->SetLightColor({ 0,0,1 });
 
 	// デバッグテキスト用テクスチャ読み込み
 	if (!Sprite::LoadTexture(debugTextTexNumber, L"Resources/Font/debugfont.png")) {
@@ -44,14 +52,21 @@ void GameScene::Initialize(DX_Init* dx_Init, Input* input)
 	// 背景スプライト生成
 	//spriteBG = Sprite::Create(1, { 0.0f,0.0f });
 	// 3Dオブジェクト生成
-	//object3d = Object3d::Create();
-	//object3d->Update();
+	object3d = Object3d::Create();
+	object3d->AddModel("sphere", Model::CreateFromOBJ("sphere", true));
 
+	object3d->SetPosition("sphere", { -1,1,0 });
 
+	camera->SetTarget({ 0,1,0 });
+	camera->SetDistance(3.0f);
 }
 
 void GameScene::Update()
 {
+	camera->Update();
+
+	LightUpdate();
+
 	// オブジェクト移動
 	if (input->PushKey(DIK_UP) || input->PushKey(DIK_DOWN) || input->PushKey(DIK_RIGHT) || input->PushKey(DIK_LEFT))
 	{
@@ -87,7 +102,7 @@ void GameScene::Update()
 	//	else if (input->PushKey(DIK_A)) { Object3d::CameraMoveVector({ -1.0f,0.0f,0.0f }); }
 	//}
 
-	//object3d->Update();
+	object3d->Update();
 
 	//audio->PlayWave("Resources/Alarm01.wav");
 }
@@ -115,17 +130,17 @@ void GameScene::Draw()
 
 #pragma region 3Dオブジェクト描画
 	// 3Dオブジェクト描画前処理
-	//Object3d::PreDraw(cmdList);
+	Object3d::PreDraw(cmdList);
 
 	// 3Dオブクジェクトの描画
-	//object3d->Draw();
+	object3d->Draw(light);
 
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 
 	// 3Dオブジェクト描画後処理
-	//Object3d::PostDraw();
+	Object3d::PostDraw();
 #pragma endregion
 
 #pragma region 前景スプライト描画
@@ -140,4 +155,23 @@ void GameScene::Draw()
 	// スプライト描画後処理
 	Sprite::PostDraw();
 #pragma endregion
+}
+
+void GameScene::CreateLight(UINT num)
+{
+	if (num <= 0)
+		return;
+	for (int i = 0; i < num; i++) {
+		Light* l;
+		l = l->Create();
+		light.push_back(l);
+	}
+}
+
+void GameScene::LightUpdate()
+{
+	if (light.size() <= 0)
+		return;
+	for (auto& l : light)
+		l->Update();
 }
