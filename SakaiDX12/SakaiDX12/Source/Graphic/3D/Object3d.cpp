@@ -180,7 +180,7 @@ void Object3d::CreateGraphicsPipeline()
 
 	gpipeline.pRootSignature = pipelineSet.rootsignature.Get();
 
-	// グラフィックスパイプラインの生成（ここが止まる2020/12/24）
+	// グラフィックスパイプラインの生成
 	result = device->CreateGraphicsPipelineState(&gpipeline, IID_PPV_ARGS(&pipelineSet.pipelinestate));
 	assert(SUCCEEDED(result));
 }
@@ -203,7 +203,7 @@ void Object3d::PostDraw()
 	Object3d::cmdList = nullptr;
 }
 
-Object3d* Object3d::Create()
+Object3d* Object3d::Create(Model* model)
 {
 	// 3Dオブジェクトのインスタンスを生成
 	Object3d* object3d = new Object3d();
@@ -215,6 +215,10 @@ Object3d* Object3d::Create()
 	if (!object3d->Initialize()) {
 		delete object3d;
 		assert(0);
+	}
+
+	if (model) {
+		object3d->SetModel(model);
 	}
 
 	return object3d;
@@ -245,63 +249,50 @@ void Object3d::Update()
 {
 	assert(camera);
 
-	// モデルの割り当てがなければ更新しない
-	if (models.empty()) {
-		return;
-	}
-
 	HRESULT result;
 	XMMATRIX matScale, matRot, matTrans;
 
 	// スケール、回転、平行移動行列の計算
-	/*matScale = XMMatrixScaling(scale.x, scale.y, scale.z);
+	matScale = XMMatrixScaling(scale.x, scale.y, scale.z);
 	matRot = XMMatrixIdentity();
 	matRot *= XMMatrixRotationZ(XMConvertToRadians(rotation.z));
 	matRot *= XMMatrixRotationX(XMConvertToRadians(rotation.x));
 	matRot *= XMMatrixRotationY(XMConvertToRadians(rotation.y));
-	matTrans = XMMatrixTranslation(position.x, position.y, position.z);*/
-	for (auto& m : models) {
-		matScale = XMMatrixScaling(m.second->scale.x, m.second->scale.y, m.second->scale.z);
-		matRot = XMMatrixIdentity();
-		matRot *= XMMatrixRotationZ(XMConvertToRadians(m.second->rotation.z));
-		matRot *= XMMatrixRotationX(XMConvertToRadians(m.second->rotation.x));
-		matRot *= XMMatrixRotationY(XMConvertToRadians(m.second->rotation.y));
-		matTrans = XMMatrixTranslation(m.second->position.x, m.second->position.y, m.second->position.z);
+	matTrans = XMMatrixTranslation(position.x, position.y, position.z);
 
-		// ワールド行列の合成
-		m.second->matWorld = XMMatrixIdentity(); // 変形をリセット
-		m.second->matWorld *= matScale; // ワールド行列にスケーリングを反映
-		m.second->matWorld *= matRot; // ワールド行列に回転を反映
-		m.second->matWorld *= matTrans; // ワールド行列に平行移動を反映
+	// ワールド行列の合成
+	matWorld = XMMatrixIdentity(); // 変形をリセット
+	matWorld *= matScale; // ワールド行列にスケーリングを反映
+	matWorld *= matRot; // ワールド行列に回転を反映
+	matWorld *= matTrans; // ワールド行列に平行移動を反映
 
-		if (isBillboard) {
-			const XMMATRIX& matBillboard = camera->GetBillboardMatrix();
+	if (isBillboard) {
+		const XMMATRIX& matBillboard = camera->GetBillboardMatrix();
 
-			m.second->matWorld = XMMatrixIdentity();
-			m.second->matWorld *= matScale; // ワールド行列にスケーリングを反映
-			m.second->matWorld *= matRot; // ワールド行列に回転を反映
-			m.second->matWorld *= matBillboard;
-			m.second->matWorld *= matTrans; // ワールド行列に平行移動を反映
-		}
-
-		// 親オブジェクトがあれば
-		//if (parent != nullptr) {
-		//	// 親オブジェクトのワールド行列を掛ける
-		//	m.second->matWorld *= parent->matWorld;
-		//}
-
-		const XMMATRIX& matViewProjection = camera->GetViewProjectionMatrix();
-		const XMFLOAT3& cameraPos = camera->GetEye();
-
-		// 定数バッファへデータ転送
-		ConstBufferDataB0* constMap = nullptr;
-		result = constBuffB0->Map(0, nullptr, (void**)&constMap);
-		//constMap->mat = matWorld * matViewProjection;
-		constMap->viewproj = matViewProjection;
-		constMap->world = m.second->matWorld;
-		constMap->cameraPos = cameraPos;
-		constBuffB0->Unmap(0, nullptr);
+		matWorld = XMMatrixIdentity();
+		matWorld *= matScale; // ワールド行列にスケーリングを反映
+		matWorld *= matRot; // ワールド行列に回転を反映
+		matWorld *= matBillboard;
+		matWorld *= matTrans; // ワールド行列に平行移動を反映
 	}
+
+	// 親オブジェクトがあれば
+	if (parent != nullptr) {
+		// 親オブジェクトのワールド行列を掛ける
+		matWorld *= parent->matWorld;
+	}
+
+	const XMMATRIX& matViewProjection = camera->GetViewProjectionMatrix();
+	const XMFLOAT3& cameraPos = camera->GetEye();
+
+	// 定数バッファへデータ転送
+	ConstBufferDataB0* constMap = nullptr;
+	result = constBuffB0->Map(0, nullptr, (void**)&constMap);
+	//constMap->mat = matWorld * matViewProjection;
+	constMap->viewproj = matViewProjection;
+	constMap->world = matWorld;
+	constMap->cameraPos = cameraPos;
+	constBuffB0->Unmap(0, nullptr);
 }
 
 void Object3d::Draw(const vector<Light*>& light)
@@ -311,9 +302,8 @@ void Object3d::Draw(const vector<Light*>& light)
 	assert(Object3d::cmdList);
 
 	// モデルの割り当てがなければ描画しない
-	if (models.empty()) {
+	if (model == nullptr)
 		return;
-	}
 
 	// パイプラインステートの設定
 	cmdList->SetPipelineState(pipelineSet.pipelinestate.Get());
@@ -325,38 +315,5 @@ void Object3d::Draw(const vector<Light*>& light)
 	LightDraw(cmdList, light);
 	//light->Draw(cmdList, 3);
 	// モデル描画
-	for (auto& m : models) {
-		m.second->Draw(cmdList);
-	}
-
-}
-
-const XMFLOAT3& Object3d::GetPosition(const std::string& key)
-{
-	return models[key]->position;
-}
-
-const XMFLOAT3& Object3d::GetRotation(const std::string& key)
-{
-	return models[key]->rotation;
-}
-
-void Object3d::SetPosition(const std::string& key, XMFLOAT3 position)
-{
-	models[key]->position = position;
-}
-
-void Object3d::SetRotation(const std::string& key, XMFLOAT3 rotation)
-{
-	models[key]->rotation = rotation;
-}
-
-void Object3d::SetScale(const std::string& key, XMFLOAT3 scale)
-{
-	models[key]->scale = scale;
-}
-
-void Object3d::AddModel(const std::string& modelname, Model* model)
-{
-	models.emplace(modelname, model);
+	model->Draw(cmdList);
 }

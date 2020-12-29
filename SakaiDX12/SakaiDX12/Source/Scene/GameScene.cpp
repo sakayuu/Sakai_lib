@@ -31,9 +31,10 @@ void GameScene::Initialize(DX_Init* dx_Init, Input* input, Audio* audio)
 	// 3Dオブジェクトにカメラをセット
 	Object3d::SetCamera(camera);
 
-	CreateLight(2);
-	light[0]->SetLightColor({ 1,0,0 });
-	light[1]->SetLightColor({ 0,0,1 });
+	obj3DManager = new Obj3DManager();
+	obj3DManager->CreateLight(2);
+	obj3DManager->SetLightColor(0, { 1,0,0 });
+	obj3DManager->SetLightColor(1, { 0,0,1 });
 
 	// デバッグテキスト用テクスチャ読み込み
 	if (!Sprite::LoadTexture(debugTextTexNumber, L"Resources/Font/debugfont.png")) {
@@ -52,10 +53,13 @@ void GameScene::Initialize(DX_Init* dx_Init, Input* input, Audio* audio)
 	// 背景スプライト生成
 	//spriteBG = Sprite::Create(1, { 0.0f,0.0f });
 	// 3Dオブジェクト生成
-	object3d = Object3d::Create();
-	object3d->AddModel("sphere", Model::CreateFromOBJ("sphere", true));
+	obj3DManager->AddModel("sphere", "sphere", false);
+	obj3DManager->AddModel("sphereSmooth", "sphere", true);
+	obj3DManager->AddObj3D("sphere1", "sphere");
+	obj3DManager->AddObj3D("sphere2", "sphereSmooth");
 
-	object3d->SetPosition("sphere", { -1,1,0 });
+	obj3DManager->SetPosition("sphere1", { -1,1,0 });
+	obj3DManager->SetPosition("sphere2", { 1,1,0 });
 
 	camera->SetTarget({ 0,1,0 });
 	camera->SetDistance(3.0f);
@@ -64,8 +68,6 @@ void GameScene::Initialize(DX_Init* dx_Init, Input* input, Audio* audio)
 void GameScene::Update()
 {
 	camera->Update();
-
-	LightUpdate();
 
 	// オブジェクト移動
 	if (input->PushKey(DIK_UP) || input->PushKey(DIK_DOWN) || input->PushKey(DIK_RIGHT) || input->PushKey(DIK_LEFT))
@@ -102,7 +104,7 @@ void GameScene::Update()
 	//	else if (input->PushKey(DIK_A)) { Object3d::CameraMoveVector({ -1.0f,0.0f,0.0f }); }
 	//}
 
-	object3d->Update();
+	obj3DManager->Update();
 
 	//audio->PlayWave("Resources/Alarm01.wav");
 }
@@ -133,7 +135,7 @@ void GameScene::Draw()
 	Object3d::PreDraw(cmdList);
 
 	// 3Dオブクジェクトの描画
-	object3d->Draw(light);
+	obj3DManager->Draw();
 
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
@@ -155,23 +157,4 @@ void GameScene::Draw()
 	// スプライト描画後処理
 	Sprite::PostDraw();
 #pragma endregion
-}
-
-void GameScene::CreateLight(UINT num)
-{
-	if (num <= 0)
-		return;
-	for (int i = 0; i < num; i++) {
-		Light* l;
-		l = l->Create();
-		light.push_back(l);
-	}
-}
-
-void GameScene::LightUpdate()
-{
-	if (light.size() <= 0)
-		return;
-	for (auto& l : light)
-		l->Update();
 }

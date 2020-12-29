@@ -89,7 +89,7 @@ public: // 静的メンバ関数
 	/// </summary>
 	/// <returns></returns>
 	//static Object3d* Create(Model* model = nullptr);
-	static Object3d* Create();
+	static Object3d* Create(Model* model);
 
 private: // 静的メンバ変数
 	// デバイス
@@ -131,38 +131,37 @@ public: // メンバ関数
 	/// 座標の取得
 	/// </summary>
 	/// <returns>座標</returns>
-	const XMFLOAT3& GetPosition(const std::string& key);
-	
+	const XMFLOAT3& GetPosition() { return position; }
+
 	/// <summary>
 	/// 回転角の取得
 	/// </summary>
 	/// <returns>回転角</returns>
-	const XMFLOAT3& GetRotation(const std::string& key);
+	const XMFLOAT3& GetRotation() { return rotation; }
 
 	/// <summary>
 	/// 座標の設定
 	/// </summary>
 	/// <param name="position">座標</param>
-	void SetPosition(const std::string& key,XMFLOAT3 position);
-	
+	void SetPosition(XMFLOAT3 position) { this->position = position; }
+
 	/// <summary>
 	/// 回転角の設定
 	/// </summary>
 	/// <param name="rotation"></param>
-	void SetRotation(const std::string& key, XMFLOAT3 rotation);
+	void SetRotation(XMFLOAT3 rotation) { this->rotation = rotation; }
 
 	/// <summary>
 	/// スケールの設定
 	/// </summary>
 	/// <param name="position">スケール</param>
-	void SetScale(const std::string& key, XMFLOAT3 scale);
-	
+	void SetScale(XMFLOAT3 scale) { this->scale = scale; }
+
 	/// <summary>
 	/// モデルのセット
 	/// </summary>
 	/// <param name="model">モデル</param>
-	//void SetModel(const std::string& modelname, Model* model);
-	void AddModel(const std::string& modelname, Model* model);
+	void SetModel(Model* model) { this->model = model; }
 
 	/// <summary>
 	/// ビルボードフラグのセット
@@ -172,21 +171,20 @@ public: // メンバ関数
 
 private: // メンバ変数
 	ComPtr<ID3D12Resource> constBuffB0; // 定数バッファ
-	//// 色
-	//XMFLOAT4 color = { 1,1,1,1 };
-	//// ローカルスケール
-	//XMFLOAT3 scale = { 1,1,1 };
-	//// X,Y,Z軸回りのローカル回転角
-	//XMFLOAT3 rotation = { 0,0,0 };
-	//// ローカル座標
-	//XMFLOAT3 position = { 0,0,0 };
-	//// ローカルワールド変換行列
-	//XMMATRIX matWorld;
+	// 色
+	XMFLOAT4 color = { 1,1,1,1 };
+	// ローカルスケール
+	XMFLOAT3 scale = { 1,1,1 };
+	// X,Y,Z軸回りのローカル回転角
+	XMFLOAT3 rotation = { 0,0,0 };
+	// ローカル座標
+	XMFLOAT3 position = { 0,0,0 };
+	// ローカルワールド変換行列
+	XMMATRIX matWorld;
 	// 親オブジェクト
 	Object3d* parent = nullptr;
 	// モデル
-	//Model* model = nullptr;
-	std::unordered_map<std::string, Model*> models;
+	Model* model = nullptr;
 	// ビルボード
 	bool isBillboard = false;
 };

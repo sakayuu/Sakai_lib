@@ -47,6 +47,6 @@ protected: // メンバ変数
 	DebugText debugText;
 
 	Sprite* sprite = nullptr;
-	Object3d* object3d = nullptr;
+	//Object3d* object3d = nullptr;
 };
 

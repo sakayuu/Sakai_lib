@@ -168,6 +168,7 @@
     <ClCompile Include="Source\Graphic\3D\Material.cpp" />
     <ClCompile Include="Source\Graphic\3D\Mesh.cpp" />
     <ClCompile Include="Source\Graphic\3D\Model.cpp" />
+    <ClCompile Include="Source\Graphic\3D\Obj3DManager.cpp" />
     <ClCompile Include="Source\Graphic\3D\Object3d.cpp" />
     <ClCompile Include="Source\Graphic\3D\ParticleManager.cpp" />
     <ClCompile Include="Source\Graphic\Camera\Camera.cpp" />
@@ -193,6 +194,7 @@
     <ClInclude Include="Source\Graphic\3D\Material.h" />
     <ClInclude Include="Source\Graphic\3D\Mesh.h" />
     <ClInclude Include="Source\Graphic\3D\Model.h" />
+    <ClInclude Include="Source\Graphic\3D\Obj3DManager.h" />
     <ClInclude Include="Source\Graphic\3D\Object3d.h" />
     <ClInclude Include="Source\Graphic\3D\ParticleManager.h" />
     <ClInclude Include="Source\Graphic\Camera\Camera.h" />

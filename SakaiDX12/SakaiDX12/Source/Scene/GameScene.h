@@ -4,6 +4,7 @@
 #include "../Engine/Dx12.h"
 #include "../Input/Input.h"
 #include "../Graphic/2D/Sprite.h"
+#include "../Graphic/3D/Obj3DManager.h"
 #include "../Scene/Scene.h"
 #include <DirectXMath.h>
 #include <vector>
@@ -49,10 +50,8 @@ public: // メンバ関数
 	/// </summary>
 	void Draw() override;
 
-	void CreateLight(UINT num);
-
-	void LightUpdate();
-
 private:
-	std::vector<Light*> light;
+
+	Obj3DManager* obj3DManager;
+
 };
