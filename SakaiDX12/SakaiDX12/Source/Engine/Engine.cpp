@@ -8,20 +8,19 @@ Engine& Engine::Instance() {
 	return instance;
 }
 
-Engine::Engine() {}
-Engine::~Engine() {}
-
-bool Engine::Init()
+Engine::Engine()
 {
 	window = new Window();
 	dx_Init = new DX_Init();
 	input = new Input();
 	audio = new Audio();
-	scene = new GameScene();
+}
+Engine::~Engine() {}
 
+bool Engine::Init()
+{
 	window->CreateGameWindow();  //ウィンドウ作成
 	dx_Init->Initialize(window); //DirectX初期化
-
 
 	// 入力の初期化
 	if (!input->Initialize(window->GetInstance(), window->GetHwnd())) {
@@ -38,10 +37,20 @@ bool Engine::Init()
 		assert(0);
 		return 1;
 	}
-	Object3d::StaticInitialize(dx_Init->GetDevice());
-	Light::StaticInitialize(dx_Init->GetDevice());
+	// 3Dモデル静的初期化
+	if (!Object3d::StaticInitialize(dx_Init->GetDevice())) {
+		assert(0);
+		return 1;
+	}
+	// ライト静的初期化
+	if (!Light::StaticInitialize(dx_Init->GetDevice())) {
+		assert(0);
+		return 1;
+	}
 
-	scene->Initialize(dx_Init, input, audio);
+	sceneManager = new SceneManager(dx_Init, input, audio);
+
+	sceneManager->Initialize();
 
 	return true;
 }
@@ -69,7 +78,7 @@ void Engine::Update()
 	input->Update();
 
 	//シーンの更新
-	scene->Update();
+	sceneManager->Update();
 }
 
 void Engine::Draw()
@@ -77,7 +86,7 @@ void Engine::Draw()
 	//描画開始
 	dx_Init->BeginDraw();
 
-	scene->Draw();
+	sceneManager->Draw();
 
 	//描画終了
 	dx_Init->EndDraw();
@@ -85,7 +94,7 @@ void Engine::Draw()
 
 void Engine::Terminate()
 {
-	safe_delete(scene);
+	safe_delete(sceneManager);
 	safe_delete(input);
 	safe_delete(audio);
 	safe_delete(dx_Init);

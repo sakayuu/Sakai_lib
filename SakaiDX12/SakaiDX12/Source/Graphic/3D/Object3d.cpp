@@ -19,7 +19,7 @@ Object3d::PipelineSet Object3d::pipelineSet;
 Camera* Object3d::camera = nullptr;
 Light* Object3d::light = nullptr;
 
-void Object3d::StaticInitialize(ID3D12Device* device, Camera* camera)
+bool Object3d::StaticInitialize(ID3D12Device* device, Camera* camera)
 {
 	// 再初期化チェック
 	assert(!Object3d::device);
@@ -33,8 +33,11 @@ void Object3d::StaticInitialize(ID3D12Device* device, Camera* camera)
 	// グラフィックパイプラインの生成
 	CreateGraphicsPipeline();
 
+	Primitive3D::StaticInitialize(device);
 	// モデルの静的初期化
 	Model::StaticInitialize(device);
+
+	return true;
 }
 
 void Object3d::CreateGraphicsPipeline()
@@ -203,7 +206,7 @@ void Object3d::PostDraw()
 	Object3d::cmdList = nullptr;
 }
 
-Object3d* Object3d::Create(Model* model)
+Object3d* Object3d::Create()
 {
 	// 3Dオブジェクトのインスタンスを生成
 	Object3d* object3d = new Object3d();
@@ -215,10 +218,6 @@ Object3d* Object3d::Create(Model* model)
 	if (!object3d->Initialize()) {
 		delete object3d;
 		assert(0);
-	}
-
-	if (model) {
-		object3d->SetModel(model);
 	}
 
 	return object3d;
@@ -301,10 +300,6 @@ void Object3d::Draw(const vector<Light*>& light)
 	assert(device);
 	assert(Object3d::cmdList);
 
-	// モデルの割り当てがなければ描画しない
-	if (model == nullptr)
-		return;
-
 	// パイプラインステートの設定
 	cmdList->SetPipelineState(pipelineSet.pipelinestate.Get());
 	// ルートシグネチャの設定
@@ -313,7 +308,32 @@ void Object3d::Draw(const vector<Light*>& light)
 	cmdList->SetGraphicsRootConstantBufferView(0, constBuffB0->GetGPUVirtualAddress());
 	// ライトの描画
 	LightDraw(cmdList, light);
-	//light->Draw(cmdList, 3);
+
+	if (DrawPrimitive(primitive != nullptr))
+		return;
+	if (DrawModel(model != nullptr))
+		return;
+
+}
+
+bool Object3d::DrawPrimitive(bool isNull)
+{
+	// モデルの割り当てがなければ描画しない
+	if (primitive == nullptr)
+		return false;
+
+	// モデル描画
+	primitive->Draw(cmdList);
+	return true;
+}
+
+bool Object3d::DrawModel(bool isNull)
+{
+	// モデルの割り当てがなければ描画しない
+	if (model == nullptr)
+		return false;
+
 	// モデル描画
 	model->Draw(cmdList);
+	return true;
 }

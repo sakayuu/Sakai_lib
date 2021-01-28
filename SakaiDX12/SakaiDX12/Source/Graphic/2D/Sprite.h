@@ -192,4 +192,5 @@ private: // メンバ関数
 public:
 	const XMFLOAT2& GetPosition() { return position; }
 
+	const XMFLOAT2& GetTexSize() { return texSize; }
 };

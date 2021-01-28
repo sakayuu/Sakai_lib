@@ -40,6 +40,15 @@
     <Filter Include="ソース ファイル\Input">
       <UniqueIdentifier>{51f2bf43-3db2-4b20-ab53-9f040cbedba1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Collision">
+      <UniqueIdentifier>{82dda1f4-d9af-4567-a62f-73aff05d1183}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Math">
+      <UniqueIdentifier>{df34fc5a-6bcb-43b6-bbec-1a9401341f64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game">
+      <UniqueIdentifier>{c71b9fd8-a67e-4104-8ceb-fb073becb802}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp">
@@ -107,6 +116,24 @@
     </ClCompile>
     <ClCompile Include="Source\Graphic\3D\Obj3DManager.cpp">
       <Filter>ソース ファイル\Graphic\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\TitleScene.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\SceneManager.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Collision\Collision.cpp">
+      <Filter>ソース ファイル\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Collision\CollisionPrimitive.cpp">
+      <Filter>ソース ファイル\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphic\3D\Primitive3D.cpp">
+      <Filter>ソース ファイル\Graphic\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Score.cpp">
+      <Filter>ソース ファイル\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -182,12 +209,42 @@
     <ClInclude Include="Source\Graphic\3D\Obj3DManager.h">
       <Filter>ソース ファイル\Graphic\3D</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Scene\TitleScene.h">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\SceneManager.h">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Collision\Collision.h">
+      <Filter>ソース ファイル\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Collision\CollisionPrimitive.h">
+      <Filter>ソース ファイル\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphic\3D\Primitive3D.h">
+      <Filter>ソース ファイル\Graphic\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Math\Vector2D.h">
+      <Filter>ヘッダー ファイル\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Math\Vector3D.h">
+      <Filter>ヘッダー ファイル\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Score.h">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\Shader\OBJShaderHeader.hlsli">
       <Filter>リソース ファイル</Filter>
     </None>
     <None Include="Source\Shader\SpriteShaderHeader.hlsli">
+      <Filter>リソース ファイル</Filter>
+    </None>
+    <None Include="Source\Shader\OBJNoTexShaderHeader.hlsli">
+      <Filter>リソース ファイル</Filter>
+    </None>
+    <None Include="Source\Shader\Particle.hlsli">
       <Filter>リソース ファイル</Filter>
     </None>
   </ItemGroup>
@@ -202,6 +259,21 @@
       <Filter>リソース ファイル</Filter>
     </FxCompile>
     <FxCompile Include="Source\Shader\SpriteVertexShader.hlsl">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Source\Shader\OBJNoTexVertexShader.hlsl">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Source\Shader\OBJNoTexPixelShader.hlsl">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Source\Shader\ParticleGS.hlsl">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Source\Shader\ParticlePS.hlsl">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Source\Shader\ParticleVS.hlsl">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
   </ItemGroup>

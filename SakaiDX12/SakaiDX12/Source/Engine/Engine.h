@@ -3,7 +3,7 @@
 #include "../Engine/SafeDelete.h"
 #include "../Graphic/2D/Sprite.h"
 #include "../Sound/Audio.h"
-#include "../Scene/GameScene.h"
+#include "../Scene/SceneManager.h"
 
 class Engine
 {
@@ -16,7 +16,7 @@ private:
 	Sprite* sprite = nullptr;
 
 	//参照が無くなれば自動で解放
-	GameScene* scene = nullptr;
+	SceneManager* sceneManager = nullptr;
 
 	//シングルトン
 	Engine();

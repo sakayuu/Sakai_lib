@@ -9,7 +9,6 @@
 #include <unordered_map>
 #include "Material.h"
 
-
 /// <summary>
 /// 形状データ
 /// </summary>
@@ -33,6 +32,20 @@ public: // サブクラス
 		XMFLOAT3 normal; // 法線ベクトル
 		XMFLOAT2 uv;  // uv座標
 	};
+	// 頂点データ構造体（テクスチャなし）
+	struct VertexPosNormal
+	{
+		XMFLOAT3 pos; // xyz座標
+		XMFLOAT3 normal; // 法線ベクトル
+	};
+	// パイプラインセット
+	struct PipelineSet
+	{
+		// ルートシグネチャ
+		ComPtr<ID3D12RootSignature> rootsignature;
+		// パイプラインステートオブジェクト
+		ComPtr<ID3D12PipelineState> pipelinestate;
+	};
 
 public: // 静的メンバ関数
 
@@ -42,9 +55,24 @@ public: // 静的メンバ関数
 	/// <param name="device">デバイス</param>
 	static void StaticInitialize(ID3D12Device* device);
 
+	/// <summary>
+	/// グラフィックパイプラインの生成（テクスチャあり）
+	/// </summary>
+	static void CreateGraphicsPipelineTex();
+
+	/// <summary>
+	/// グラフィックパイプラインの生成（テクスチャなし）
+	/// </summary>
+	static void CreateGraphicsPipelineNoTex();
+
 private: // 静的メンバ変数
 	// デバイス
 	static ID3D12Device* device;
+
+	// テクスチャあり用パイプライン
+	static PipelineSet pipelineSetTex;
+	// テクスチャなし用パイプライン
+	static PipelineSet pipelineSetNoTex;
 
 public: // メンバ関数
 
@@ -65,6 +93,7 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="vertex">頂点データ</param>
 	void AddVertex(const VertexPosNormalUv& vertex);
+	void AddVertex(const VertexPosNormal& vertex);
 
 	/// <summary>
 	/// 頂点インデックスの追加
@@ -76,7 +105,11 @@ public: // メンバ関数
 	/// 頂点データの数を取得
 	/// </summary>
 	/// <returns>頂点データの数</returns>
-	inline size_t GetVertexCount() { return vertices.size(); }
+	inline size_t GetVertexCount() {
+		if (material && material->textureFilename.size() > 0)
+			return verticesTex.size();
+		return verticesNoTex.size();
+	}
 
 	/// <summary>
 	/// エッジ平滑化データの追加
@@ -137,11 +170,14 @@ private: // メンバ変数
 	// インデックスバッファビュー
 	D3D12_INDEX_BUFFER_VIEW ibView = {};
 	// 頂点データ配列
-	std::vector<VertexPosNormalUv> vertices;
+	std::vector<VertexPosNormalUv> verticesTex;
+	// 頂点データ配列
+	std::vector<VertexPosNormal> verticesNoTex;
 	// 頂点インデックス配列
 	std::vector<unsigned short> indices;
 	// 頂点法線スムージング用データ
 	std::unordered_map<unsigned short, std::vector<unsigned short>> smoothData;
 	// マテリアル
 	Material* material = nullptr;
+
 };

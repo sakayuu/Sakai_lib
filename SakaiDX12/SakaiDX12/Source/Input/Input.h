@@ -77,6 +77,8 @@ public: // メンバ関数
 	/// <returns>マウス移動量</returns>
 	MouseMove GetMouseMove();
 
+	POINT GetMousePoint();
+
 private: // メンバ変数
 	ComPtr<IDirectInput8> dinput;
 	ComPtr<IDirectInputDevice8> devKeyboard;
@@ -85,5 +87,8 @@ private: // メンバ変数
 	ComPtr<IDirectInputDevice8> devMouse;
 	DIMOUSESTATE2 mouseState = {};
 	DIMOUSESTATE2 mouseStatePre = {};
+
+	HWND hWnd;
+	POINT mousePoint = { 0,0 };
 };
 

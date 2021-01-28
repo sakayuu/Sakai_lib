@@ -7,6 +7,8 @@ bool Input::Initialize(HINSTANCE hInstance, HWND hwnd)
 {
 	HRESULT result = S_FALSE;
 
+	hWnd = hwnd;
+
 	// DirectInputオブジェクトの生成	
 	result = DirectInput8Create(hInstance, DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&dinput, nullptr);
 	assert(SUCCEEDED(result));
@@ -147,4 +149,11 @@ Input::MouseMove Input::GetMouseMove()
 	tmp.lY = mouseState.lY;
 	tmp.lZ = mouseState.lZ;
 	return tmp;
+}
+
+POINT Input::GetMousePoint()
+{
+	GetCursorPos(&mousePoint);
+	ScreenToClient(hWnd, &mousePoint);
+	return mousePoint;
 }

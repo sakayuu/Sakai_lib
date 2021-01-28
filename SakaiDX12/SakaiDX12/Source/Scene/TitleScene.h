@@ -1,21 +1,39 @@
-﻿/**
-* @file TitleScene.h
-* @brief タイトルシーンの関数の宣言
-*/
-#ifndef TITLE_SCENE_H_
-#define TITLE_SCENE_H_
+﻿#pragma once
 
-/**
-* @brief タイトルシーンの更新関数@n
-* タイトルシーンの仕様が実行される
-* @return 遷移先シーンID(基本はSceneId::TitleSceneが返る)
-*/
-SceneId UpdateTitleScene();
+#include "../Engine/Window.h"
+#include "../Engine/Dx12.h"
+#include "../Input/Input.h"
+#include "../Graphic/2D/Sprite.h"
+#include "../Graphic/3D/Obj3DManager.h"
+#include "../Scene/Scene.h"
+#include <DirectXMath.h>
+#include <vector>
 
-/**
-* @brief タイトルシーンの描画関数@n
-* タイトルシーンのオブジェクトを描画する関数
-*/
-void DrawTitleScene();
+class TitleScene : public Scene
+{
+private: // 静的メンバ変数
+	static const int debugTextTexNumber = 0;
 
-#endif
+public: // メンバ関数
+
+	// コンストクラタ
+	TitleScene();
+
+	// デストラクタ
+	~TitleScene();
+
+	// 初期化
+	void Initialize(DX_Init* dx_Init, Input* input, Audio* audio, Score* score) override;
+
+	// 毎フレーム処理
+	void Update() override;
+
+	// 描画
+	void Draw() override;
+
+private:
+	Sprite* sprite = nullptr;
+	Sprite* spriteBG = nullptr;
+	Obj3DManager* obj3DManager;
+
+};

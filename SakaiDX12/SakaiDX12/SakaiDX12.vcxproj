@@ -159,10 +159,13 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Collision\Collision.cpp" />
+    <ClCompile Include="Source\Collision\CollisionPrimitive.cpp" />
     <ClCompile Include="Source\Engine\Dx12.cpp" />
     <ClCompile Include="Source\Engine\Engine.cpp" />
     <ClCompile Include="Source\Engine\FramerateFix.cpp" />
     <ClCompile Include="Source\Engine\Window.cpp" />
+    <ClCompile Include="Source\Game\Score.cpp" />
     <ClCompile Include="Source\Graphic\2D\DebugText.cpp" />
     <ClCompile Include="Source\Graphic\2D\Sprite.cpp" />
     <ClCompile Include="Source\Graphic\3D\Material.cpp" />
@@ -171,6 +174,7 @@
     <ClCompile Include="Source\Graphic\3D\Obj3DManager.cpp" />
     <ClCompile Include="Source\Graphic\3D\Object3d.cpp" />
     <ClCompile Include="Source\Graphic\3D\ParticleManager.cpp" />
+    <ClCompile Include="Source\Graphic\3D\Primitive3D.cpp" />
     <ClCompile Include="Source\Graphic\Camera\Camera.cpp" />
     <ClCompile Include="Source\Graphic\Camera\DebugCamera.cpp" />
     <ClCompile Include="Source\Graphic\Light\Light.cpp" />
@@ -180,15 +184,20 @@
     <ClCompile Include="Source\Scene\GameOverScene.cpp" />
     <ClCompile Include="Source\Scene\GameScene.cpp" />
     <ClCompile Include="Source\Scene\HelpScene.cpp" />
+    <ClCompile Include="Source\Scene\SceneManager.cpp" />
+    <ClCompile Include="Source\Scene\TitleScene.cpp" />
     <ClCompile Include="Source\Sound\Audio.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Collision\Collision.h" />
+    <ClInclude Include="Source\Collision\CollisionPrimitive.h" />
     <ClInclude Include="Source\Easing.h" />
     <ClInclude Include="Source\Engine\Dx12.h" />
     <ClInclude Include="Source\Engine\Engine.h" />
     <ClInclude Include="Source\Engine\FramerateFix.h" />
     <ClInclude Include="Source\Engine\SafeDelete.h" />
     <ClInclude Include="Source\Engine\Window.h" />
+    <ClInclude Include="Source\Game\Score.h" />
     <ClInclude Include="Source\Graphic\2D\DebugText.h" />
     <ClInclude Include="Source\Graphic\2D\Sprite.h" />
     <ClInclude Include="Source\Graphic\3D\Material.h" />
@@ -197,15 +206,20 @@
     <ClInclude Include="Source\Graphic\3D\Obj3DManager.h" />
     <ClInclude Include="Source\Graphic\3D\Object3d.h" />
     <ClInclude Include="Source\Graphic\3D\ParticleManager.h" />
+    <ClInclude Include="Source\Graphic\3D\Primitive3D.h" />
     <ClInclude Include="Source\Graphic\Camera\Camera.h" />
     <ClInclude Include="Source\Graphic\Camera\DebugCamera.h" />
     <ClInclude Include="Source\Graphic\Light\Light.h" />
     <ClInclude Include="Source\Input\Input.h" />
+    <ClInclude Include="Source\Math\Vector2D.h" />
+    <ClInclude Include="Source\Math\Vector3D.h" />
     <ClInclude Include="Source\Scene\GameClearScene.h" />
     <ClInclude Include="Source\Scene\GameOverScene.h" />
     <ClInclude Include="Source\Scene\GameScene.h" />
     <ClInclude Include="Source\Scene\HelpScene.h" />
     <ClInclude Include="Source\Scene\Scene.h" />
+    <ClInclude Include="Source\Scene\SceneManager.h" />
+    <ClInclude Include="Source\Scene\TitleScene.h" />
     <ClInclude Include="Source\Sound\Audio.h" />
   </ItemGroup>
   <ItemGroup>
@@ -214,10 +228,24 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Source\Shader\OBJNoTexShaderHeader.hlsli" />
     <None Include="Source\Shader\OBJShaderHeader.hlsli" />
+    <None Include="Source\Shader\Particle.hlsli" />
     <None Include="Source\Shader\SpriteShaderHeader.hlsli" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="Source\Shader\OBJNoTexPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Source\Shader\OBJNoTexVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
     <FxCompile Include="Source\Shader\OBJPixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
@@ -225,6 +253,24 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>
     <FxCompile Include="Source\Shader\OBJVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Source\Shader\ParticleGS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Geometry</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Geometry</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Source\Shader\ParticlePS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Source\Shader\ParticleVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>

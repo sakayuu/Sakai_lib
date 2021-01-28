@@ -40,6 +40,18 @@ struct Vector3D
 		return (vec - *this).Length();
 	}
 
+	// ゼロベクトルであるか
+	bool IsZero() const{
+		return x == 0.0 && y == 0.0 && z == 0.0;
+	}
+
+	// ベクトル初期化
+	void Clear(double a){
+		x = a;
+		y = a;
+		z = a;
+	}
+
 	// 正規化
 	Vector3D Normalized() const {
 		return *this / Length();

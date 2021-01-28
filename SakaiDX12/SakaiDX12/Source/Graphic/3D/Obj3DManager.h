@@ -1,6 +1,7 @@
 #pragma once
 #include "Object3d.h"
 
+
 class Obj3DManager
 {
 private: // エイリアス
@@ -38,9 +39,22 @@ public: // メンバ関数
 	// モデルの削除
 	void DeleteModel(const std::string& modelName);
 
+	void AddPrimitive3D(const std::string& primitiveName, const Plane& plane);
+	void AddPrimitive3D(const std::string& primitiveName, const Sphere& sphere);
+	void AddPrimitive3D(const std::string& primitiveName, const Triangle& triangle);
+	void AddPrimitive3D(const std::string& primitiveName, const Lay& lay);
+	void AddPrimitive3D(const std::string& primitiveName, const Cube& cube);
+
+	void SetPrimitive3D(const std::string& name, const std::string& primitiveName);
+
+	void DeletePrimitive3D(const std::string& primitiveName);
+
 	// オブジェクトの追加
 	void AddObj3D(const std::string& name, const std::string& modelName);
 
+	// 基本形状追加
+	void AddObj3DPrimitive(const std::string& name, const std::string& primitiveName);
+	
 	// オブジェクトの削除
 	void DeleteObj3D(const std::string& name);
 
@@ -67,6 +81,7 @@ public: // セッター
 private:
 	std::vector<Light*> light;
 	std::unordered_map <std::string, Model*> models;
+	std::unordered_map <std::string, Primitive3D*> primitives;
 	std::unordered_map <std::string, Object3d*> objects;
 
 };

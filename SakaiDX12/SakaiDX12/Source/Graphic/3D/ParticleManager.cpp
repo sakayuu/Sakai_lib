@@ -78,9 +78,8 @@ void ParticleManager::Initialize()
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&constBuff));
-	if (FAILED(result)) {
-		assert(0);
-	}
+	assert(SUCCEEDED(result));
+	
 }
 
 void ParticleManager::Update()
@@ -225,7 +224,7 @@ void ParticleManager::InitializeGraphicsPipeline()
 
 	// 頂点シェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"ParticleVS.hlsl",	// シェーダファイル名
+		L"Source/Shader/ParticleVS.hlsl",	// シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "vs_5_0",	// エントリーポイント名、シェーダーモデル指定
@@ -248,7 +247,7 @@ void ParticleManager::InitializeGraphicsPipeline()
 
 	// ピクセルシェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"ParticlePS.hlsl",	// シェーダファイル名
+		L"Source/Shader/ParticlePS.hlsl",	// シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "ps_5_0",	// エントリーポイント名、シェーダーモデル指定
@@ -271,7 +270,7 @@ void ParticleManager::InitializeGraphicsPipeline()
 
 	// ジオメトリシェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"ParticleGS.hlsl",	// シェーダファイル名
+		L"Source/Shader/ParticleGS.hlsl",	// シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "gs_5_0",	// エントリーポイント名、シェーダーモデル指定
@@ -401,12 +400,10 @@ void ParticleManager::LoadTexture()
 	ScratchImage scratchImg{};
 
 	result = LoadFromWICFile(
-		L"Resources/effect1.png", WIC_FLAGS_NONE,
+		L"Resources/Textures/effect1.png", WIC_FLAGS_NONE,
 		&metadata, scratchImg);
-	if (FAILED(result)) {
-		assert(0);
-	}
-
+	assert(SUCCEEDED(result));
+	
 	const Image* img = scratchImg.GetImage(0, 0, 0); // 生データ抽出
 
 	// リソース設定

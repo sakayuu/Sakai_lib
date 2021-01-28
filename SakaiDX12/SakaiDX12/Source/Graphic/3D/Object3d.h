@@ -9,6 +9,7 @@
 #include <map>
 
 #include "Model.h"
+#include "Primitive3D.h"
 #include "../Camera/Camera.h"
 #include "../Light/Light.h"
 
@@ -50,7 +51,7 @@ public: // 静的メンバ関数
 	/// 静的初期化
 	/// </summary>
 	/// <param name="device">デバイス</param>
-	static void StaticInitialize(ID3D12Device* device, Camera* camera = nullptr);
+	static bool StaticInitialize(ID3D12Device* device, Camera* camera = nullptr);
 
 	/// <summary>
 	/// グラフィックパイプラインの生成
@@ -89,7 +90,7 @@ public: // 静的メンバ関数
 	/// </summary>
 	/// <returns></returns>
 	//static Object3d* Create(Model* model = nullptr);
-	static Object3d* Create(Model* model);
+	static Object3d* Create();
 
 private: // 静的メンバ変数
 	// デバイス
@@ -163,11 +164,19 @@ public: // メンバ関数
 	/// <param name="model">モデル</param>
 	void SetModel(Model* model) { this->model = model; }
 
+	void SetPrimitive3D(Primitive3D* primitive) { this->primitive = primitive; }
+
 	/// <summary>
 	/// ビルボードフラグのセット
 	/// </summary>
 	/// <param name="isBillboard">ビルボードか</param>
 	void SetBillboard(bool isBillboard) { this->isBillboard = isBillboard; }
+
+private:
+
+	bool DrawPrimitive(bool isNull);
+
+	bool DrawModel(bool isNull);
 
 private: // メンバ変数
 	ComPtr<ID3D12Resource> constBuffB0; // 定数バッファ
@@ -185,6 +194,8 @@ private: // メンバ変数
 	Object3d* parent = nullptr;
 	// モデル
 	Model* model = nullptr;
+	// プリミティブ
+	Primitive3D* primitive = nullptr;
 	// ビルボード
 	bool isBillboard = false;
 };

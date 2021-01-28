@@ -11,6 +11,10 @@
 #include "../Graphic/Camera/DebugCamera.h"
 #include <DirectXMath.h>
 
+
+#include"../Game/Score.h"
+
+
 /// <summary>
 /// シーン（抽象クラス）
 /// </summary>
@@ -31,13 +35,17 @@ protected: // 静的メンバ変数
 public: // メンバ関数（純粋仮想関数）
 
 	//初期化
-	virtual void Initialize(DX_Init* dx_Init, Input* input,Audio* audio) = 0;
+	virtual void Initialize(DX_Init* dx_Init, Input* input, Audio* audio, Score* score) = 0;
 
 	//毎フレーム処理
 	virtual void Update() = 0;
 
 	//描画
 	virtual void Draw() = 0;
+
+	virtual bool IsSceneEnd() { return isSceneEnd; }
+
+	virtual std::string IsNextScene() { return isNextScene; }
 
 protected: // メンバ変数
 	DX_Init* dx_Init = nullptr;
@@ -46,7 +54,9 @@ protected: // メンバ変数
 	DebugCamera* camera = nullptr;
 	DebugText debugText;
 
-	Sprite* sprite = nullptr;
-	//Object3d* object3d = nullptr;
+	bool isSceneEnd = false;
+	std::string isNextScene;
+
+	Score* score = nullptr;
 };
 

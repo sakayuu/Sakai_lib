@@ -17,7 +17,7 @@ Obj3DManager::~Obj3DManager()
 		m.second = nullptr;
 	}
 	models.clear();
-
+	
 	for (auto& o : objects) {
 		delete(o.second);
 		o.second = nullptr;
@@ -83,12 +83,50 @@ void Obj3DManager::DeleteModel(const std::string& modelName)
 	models.erase(modelName);
 }
 
+void Obj3DManager::AddPrimitive3D(const std::string& primitiveName, const Lay& lay)
+{
+	primitives.emplace(primitiveName, Primitive3D::CreateFromShape(lay));
+}
+
+void Obj3DManager::AddPrimitive3D(const std::string& primitiveName, const Cube& cube)
+{
+	primitives.emplace(primitiveName, Primitive3D::CreateFromShape(cube));
+}
+
+void Obj3DManager::SetPrimitive3D(const std::string& name, const std::string& primitiveName)
+{
+	if (primitives.empty())
+		return;
+
+	objects[name]->SetPrimitive3D(primitives[primitiveName]);
+}
+
+void Obj3DManager::DeletePrimitive3D(const std::string& primitiveName)
+{
+	if (primitives.empty() || primitives[primitiveName] == nullptr)
+		return;
+
+	delete(primitives[primitiveName]);
+	primitives[primitiveName] = nullptr;
+	primitives.erase(primitiveName);
+}
+
 void Obj3DManager::AddObj3D(const std::string& name, const std::string& modelName)
 {
 	if (models[modelName] == nullptr)
 		return;
 
-	objects.emplace(name, Object3d::Create(models[modelName]));
+	objects.emplace(name, Object3d::Create());
+	objects[name]->SetModel(models[modelName]);
+}
+
+void Obj3DManager::AddObj3DPrimitive(const std::string& name, const std::string& primitiveName)
+{
+	if (primitives[primitiveName] == nullptr)
+		return;
+
+	objects.emplace(name, Object3d::Create());
+	objects[name]->SetPrimitive3D(primitives[primitiveName]);
 }
 
 void Obj3DManager::DeleteObj3D(const std::string& name)

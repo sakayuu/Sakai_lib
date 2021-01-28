@@ -7,13 +7,15 @@ using namespace DirectX;
 /// </summary>
 ID3D12Device* Light::device = nullptr;
 
-void Light::StaticInitialize(ID3D12Device* device) {
+bool Light::StaticInitialize(ID3D12Device* device) {
 	//再初期化チェック
 	assert(!Light::device);
 	//nullptrチェック
 	assert(device);
 	//静的メンバ変数のセット
 	Light::device = device;
+
+	return true;
 }
 
 Light* Light::Create() {

@@ -20,7 +20,7 @@ void Model::StaticInitialize(ID3D12Device* device)
 	Model::device = device;
 
 	// メッシュの静的初期化
-	Mesh::StaticInitialize(device);
+	//Mesh::StaticInitialize(device);
 }
 
 Model* Model::CreateFromOBJ(const std::string& modelname, bool smoothing)
@@ -192,10 +192,9 @@ void Model::Initialize(const std::string& modelname, bool smoothing)
 					// スラッシュ2連続の場合、頂点番号のみ
 					if (c == '/') {
 						// 頂点データの追加
-						Mesh::VertexPosNormalUv vertex{};
+						Mesh::VertexPosNormal vertex{};
 						vertex.pos = positions[indexPosition - 1];
 						vertex.normal = { 0, 0, 1 };
-						vertex.uv = { 0, 0 };
 						mesh->AddVertex(vertex);
 					}
 					else {
@@ -204,10 +203,9 @@ void Model::Initialize(const std::string& modelname, bool smoothing)
 						index_stream.seekg(1, ios_base::cur); // スラッシュを飛ばす
 						index_stream >> indexNormal;
 						// 頂点データの追加
-						Mesh::VertexPosNormalUv vertex{};
+						Mesh::VertexPosNormal vertex{};
 						vertex.pos = positions[indexPosition - 1];
 						vertex.normal = normals[indexNormal - 1];
-						vertex.uv = { 0, 0 };
 						mesh->AddVertex(vertex);
 					}
 				}
@@ -378,9 +376,7 @@ void Model::CreateDescriptorHeap()
 		descHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;//シェーダから見えるように
 		descHeapDesc.NumDescriptors = (UINT)count; // シェーダーリソースビューの数
 		result = device->CreateDescriptorHeap(&descHeapDesc, IID_PPV_ARGS(&descHeap));//生成
-		if (FAILED(result)) {
-			assert(0);
-		}
+		assert(SUCCEEDED(result));
 	}
 
 	// デスクリプタサイズを取得
@@ -404,13 +400,13 @@ void Model::LoadTextures()
 			textureIndex++;
 		}
 		// テクスチャなし
-		else {
-			CD3DX12_CPU_DESCRIPTOR_HANDLE cpuDescHandleSRV = CD3DX12_CPU_DESCRIPTOR_HANDLE(descHeap->GetCPUDescriptorHandleForHeapStart(), textureIndex, descriptorHandleIncrementSize);
-			CD3DX12_GPU_DESCRIPTOR_HANDLE gpuDescHandleSRV = CD3DX12_GPU_DESCRIPTOR_HANDLE(descHeap->GetGPUDescriptorHandleForHeapStart(), textureIndex, descriptorHandleIncrementSize);
-			// マテリアルにテクスチャ読み込み
-			material->LoadTexture(baseDirectory, cpuDescHandleSRV, gpuDescHandleSRV);
-			textureIndex++;
-		}
+		//else {
+		//	CD3DX12_CPU_DESCRIPTOR_HANDLE cpuDescHandleSRV = CD3DX12_CPU_DESCRIPTOR_HANDLE(descHeap->GetCPUDescriptorHandleForHeapStart(), textureIndex, descriptorHandleIncrementSize);
+		//	CD3DX12_GPU_DESCRIPTOR_HANDLE gpuDescHandleSRV = CD3DX12_GPU_DESCRIPTOR_HANDLE(descHeap->GetGPUDescriptorHandleForHeapStart(), textureIndex, descriptorHandleIncrementSize);
+		//	// マテリアルにテクスチャ読み込み
+		//	material->LoadTexture(baseDirectory, cpuDescHandleSRV, gpuDescHandleSRV);
+		//	textureIndex++;
+		//}
 	}
 }
 
