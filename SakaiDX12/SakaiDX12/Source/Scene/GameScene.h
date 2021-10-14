@@ -28,11 +28,10 @@ private: // 静的メンバ変数
 private:
 
 public: // メンバ関数
-
 	/// <summary>
 	/// コンストクラタ
 	/// </summary>
-	GameScene();
+	GameScene(const std::string& sceneName) :Scene(sceneName) {};
 
 	/// <summary>
 	/// デストラクタ
@@ -88,5 +87,8 @@ private:
 	float g = 0.98f;
 	bool shotFlag = false;
 	XMFLOAT3 bulletVec = { 0,0,0 };
+
+	float lightColor1[3] = { 0,0,1 };
+	float lightColor2[3] = { 0,0,1 };
 
 };

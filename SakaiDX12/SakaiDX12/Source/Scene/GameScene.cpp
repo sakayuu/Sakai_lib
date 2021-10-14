@@ -8,9 +8,9 @@
 
 using namespace DirectX;
 
-GameScene::GameScene()
-{
-}
+//GameScene::GameScene()
+//{
+//}
 
 GameScene::~GameScene()
 {
@@ -56,7 +56,6 @@ void GameScene::Initialize(DX_Init* dx_Init, Input* input, Audio* audio, Score* 
 	sprite->SetPosition({
 		(float)input->GetMousePoint().x - sprite->GetTexSize().x / 2 ,
 		(float)input->GetMousePoint().y - sprite->GetTexSize().y / 2 });
-	ShowCursor(FALSE);
 	// 背景スプライト生成
 	//spriteBG = Sprite::Create(1, { 0.0f,0.0f });
 	// パーティクルマネージャ生成
@@ -65,14 +64,14 @@ void GameScene::Initialize(DX_Init* dx_Init, Input* input, Audio* audio, Score* 
 	// 3Dオブジェクト生成
 	obj3DManager->AddModel("sphereSmooth", "sphere", true);
 	obj3DManager->AddModel("sphereBullet", "sphere", false);
-	Cube* cube = new Cube();
-	obj3DManager->AddPrimitive3D("cube", *cube);
+	//Cube* cube = new Cube();
+	//obj3DManager->AddPrimitive3D("cube", *cube);
 
 	obj3DManager->AddObj3D("sphere1", "sphereSmooth");
 	obj3DManager->AddObj3D("bullet", "sphereBullet");
 	obj3DManager->SetScale("bullet", { 0.2f,0.2f ,0.2f });
 
-	obj3DManager->AddObj3DPrimitive("Cube", "cube1");
+	//obj3DManager->AddObj3DPrimitive("Cube", "cube1");
 
 	obj3DManager->SetPosition("sphere1", { 10,0,10 });
 	obj3DManager->SetPosition("bullet", { 0,0,-10 });
@@ -102,6 +101,9 @@ void GameScene::Initialize(DX_Init* dx_Init, Input* input, Audio* audio, Score* 
 void GameScene::Update()
 {
 	camera->Update();
+
+	obj3DManager->SetLightColor(0, { lightColor1[0],lightColor1[1],lightColor1[2] });
+	obj3DManager->SetLightColor(1, { lightColor2[0],lightColor2[1],lightColor2[2] });
 
 	// マウスカーソル移動
 	{
@@ -177,13 +179,13 @@ void GameScene::Update()
 	debugText.Print(debugstr.str(), 50, 150, 1.0f);*/
 
 	// カメラ移動
-	//if (input->PushKey(DIK_W) || input->PushKey(DIK_S) || input->PushKey(DIK_D) || input->PushKey(DIK_A))
-	//{
-	//	if (input->PushKey(DIK_W)) { Object3d::CameraMoveVector({ 0.0f,+1.0f,0.0f }); }
-	//	else if (input->PushKey(DIK_S)) { Object3d::CameraMoveVector({ 0.0f,-1.0f,0.0f }); }
-	//	if (input->PushKey(DIK_D)) { Object3d::CameraMoveVector({ +1.0f,0.0f,0.0f }); }
-	//	else if (input->PushKey(DIK_A)) { Object3d::CameraMoveVector({ -1.0f,0.0f,0.0f }); }
-	//}
+	if (input->PushKey(DIK_W) || input->PushKey(DIK_S) || input->PushKey(DIK_D) || input->PushKey(DIK_A))
+	{
+		if (input->PushKey(DIK_W)) { camera->MoveVector(XMFLOAT3{ 0.0f,+1.0f,0.0f }); }
+		else if (input->PushKey(DIK_S)) { camera->MoveVector(XMFLOAT3{ 0.0f,-1.0f,0.0f }); }
+		if (input->PushKey(DIK_D)) { camera->MoveVector(XMFLOAT3{ +1.0f,0.0f,0.0f }); }
+		else if (input->PushKey(DIK_A)) { camera->MoveVector(XMFLOAT3{ -1.0f,0.0f,0.0f }); }
+	}
 
 	//obj3DManager->SetPosition("lay1", { lay.start.m128_f32[0], lay.start.m128_f32[1], lay.start.m128_f32[2] });
 
@@ -192,6 +194,13 @@ void GameScene::Update()
 
 void GameScene::Draw()
 {
+	ImGui::SetNextWindowPos(ImVec2(0, 200));
+	ImGui::SetNextWindowSize(ImVec2(500, 200));
+	ImGui::Begin("Test");
+	ImGui::InputFloat3("lightColor0", lightColor1);
+	ImGui::InputFloat3("lightColor1", lightColor2);
+	ImGui::End();
+
 	// コマンドリストの取得
 	ID3D12GraphicsCommandList* cmdList = dx_Init->GetCommandList();
 
@@ -200,10 +209,6 @@ void GameScene::Draw()
 	//Sprite::PreDraw(cmdList);
 	// 背景スプライト描画
 	//spriteBG->Draw();
-
-	/// <summary>
-	/// ここに背景スプライトの描画処理を追加できる
-	/// </summary>
 
 	// スプライト描画後処理
 	//Sprite::PostDraw();
@@ -218,10 +223,6 @@ void GameScene::Draw()
 	// 3Dオブクジェクトの描画
 	obj3DManager->Draw();
 
-	/// <summary>
-	/// ここに3Dオブジェクトの描画処理を追加できる
-	/// </summary>
-
 	// パーティクルの描画
 	particleManager->Draw(cmdList);
 
@@ -233,7 +234,6 @@ void GameScene::Draw()
 	// 前景スプライト描画前処理
 	Sprite::PreDraw(cmdList);
 
-	// ここに前景スプライトの描画処理を追加できる
 	sprite->Draw();
 	// デバッグテキストの描画
 	debugText.DrawAll(cmdList);
@@ -334,7 +334,7 @@ void GameScene::TimeCheck()
 		isNextScene = "GameClear";
 		isSceneEnd = true;
 	}*/
-	timer++;
+	//timer++;
 	if (timer >= 600) {
 		isNextScene = "GameOver";
 		score->SetScore(shotPoint, breakPoint);

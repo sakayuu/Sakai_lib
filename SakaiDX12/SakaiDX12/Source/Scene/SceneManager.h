@@ -25,6 +25,8 @@ public:
 
 	void SetScore();
 
+	std::string GetSceneName() { return currentScene->GetMySceneName();}
+
 private:
 	std::unordered_map<std::string, Scene*> scenes;
 	Scene* currentScene = nullptr;

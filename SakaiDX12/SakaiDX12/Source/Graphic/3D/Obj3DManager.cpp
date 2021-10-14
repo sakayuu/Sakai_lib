@@ -83,6 +83,21 @@ void Obj3DManager::DeleteModel(const std::string& modelName)
 	models.erase(modelName);
 }
 
+void Obj3DManager::AddPrimitive3D(const std::string& primitiveName, const Plane& plane)
+{
+	primitives.emplace(primitiveName, Primitive3D::CreateFromShape(plane));
+}
+
+void Obj3DManager::AddPrimitive3D(const std::string& primitiveName, const Sphere& sphere)
+{
+	primitives.emplace(primitiveName, Primitive3D::CreateFromShape(sphere));
+}
+
+void Obj3DManager::AddPrimitive3D(const std::string& primitiveName, const Triangle& triangle)
+{
+	primitives.emplace(primitiveName, Primitive3D::CreateFromShape(triangle));
+}
+
 void Obj3DManager::AddPrimitive3D(const std::string& primitiveName, const Lay& lay)
 {
 	primitives.emplace(primitiveName, Primitive3D::CreateFromShape(lay));

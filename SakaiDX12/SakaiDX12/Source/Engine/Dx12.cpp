@@ -1,12 +1,19 @@
 ﻿#include "Dx12.h"
 #include <d3dx12.h>
 //#include<cassert>
+#include "../imgui/imgui_impl_win32.h"
+#include "../imgui/imgui_impl_dx12.h"
 
 #pragma comment(lib,"DirectXTex.lib")
 
 using namespace Microsoft::WRL;
 using namespace std;
 using namespace DirectX;
+
+DX_Init::~DX_Init()
+{
+	Finalize();
+}
 
 void DX_Init::Initialize(Window* win)
 {
@@ -33,6 +40,17 @@ void DX_Init::Initialize(Window* win)
 	if (!CreateFence()) {
 		assert(0);
 	}
+	// imgui初期化
+	if (!InitImgui()) {
+		assert(0);
+	}
+}
+
+void DX_Init::Finalize()
+{
+	ImGui_ImplDX12_Shutdown();
+	ImGui_ImplWin32_Shutdown();
+	ImGui::DestroyContext();
 }
 
 void DX_Init::BeginDraw()
@@ -66,10 +84,21 @@ void DX_Init::BeginDraw()
 	cmdList->RSSetViewports(1, &VIEWPORT);
 	// シザリング矩形の設定
 	cmdList->RSSetScissorRects(1, &RECT);
+
+	// imgui開始
+	ImGui_ImplDX12_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
 }
 
 void DX_Init::EndDraw()
 {
+	// imgui描画
+	ImGui::Render();
+	ID3D12DescriptorHeap* ppHeaps[] = { imguiHeap.Get() };
+	cmdList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), cmdList.Get());
+
 	//バックバッファの番号を取得(2つなので0番か1番)
 	UINT bbIndex = swapchain->GetCurrentBackBufferIndex();
 
@@ -350,6 +379,45 @@ bool DX_Init::CreateFence()
 	result = device->CreateFence(fenceVal, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(fence.ReleaseAndGetAddressOf()));
 	assert(SUCCEEDED(result));
 #pragma endregion
+
+	return true;
+}
+
+bool DX_Init::InitImgui()
+{
+	HRESULT result = S_FALSE;
+
+	// デスクリプタヒープを生成
+	D3D12_DESCRIPTOR_HEAP_DESC heapDesc{};
+	heapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+	heapDesc.NumDescriptors = 1;
+	heapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+	result = device->CreateDescriptorHeap(&heapDesc, IID_PPV_ARGS(&imguiHeap));
+	assert(SUCCEEDED(result));
+	
+	// スワップチェーンの情報を取得
+	DXGI_SWAP_CHAIN_DESC swcDesc = {};
+	result = swapchain->GetDesc(&swcDesc);
+	assert(SUCCEEDED(result));
+
+	if (ImGui::CreateContext() == nullptr) {
+		assert(0);
+		return false;
+	}
+	if (!ImGui_ImplWin32_Init(win->GetHwnd())) {
+		assert(0);
+		return false;
+	}
+	if (!ImGui_ImplDX12_Init(
+		GetDevice(),
+		swcDesc.BufferCount,
+		swcDesc.BufferDesc.Format,
+		imguiHeap.Get(),
+		imguiHeap->GetCPUDescriptorHandleForHeapStart(),
+		imguiHeap->GetGPUDescriptorHandleForHeapStart())) {
+		assert(0);
+		return false;
+	}
 
 	return true;
 }

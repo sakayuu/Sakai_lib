@@ -10,6 +10,7 @@
 #include <map>
 #include <unordered_map>
 #include"../Engine/Window.h"
+#include "../imgui/imgui.h"
 
 class DX_Init
 {
@@ -17,11 +18,16 @@ private: //エイリアス
 	template<typename T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	
 public: //メンバ関数（public）
+	/// デストラクタ
+	~DX_Init();
+
 	/// <summary>
 	/// 初期化
 	/// </summary>
 	/// <param name="win">ウィンドウ情報</param>
 	void Initialize(Window* win);
+
+	void Finalize();
 
 	//描画前処理
 	void BeginDraw();
@@ -65,6 +71,11 @@ private: //メンバ変数（private）
 	ComPtr<ID3D12Fence> fence = nullptr;
 	UINT64 fenceVal = 0;
 
+	ComPtr<ID3D12DescriptorHeap> imguiHeap;
+	float deltaTime = 0.0f;
+	float frameRate = 0.0f;
+	float commandWaitTime = 0.0f;
+	
 private: //メンバ関数（private）
 	//DXGIまわり初期化
 	bool InitializeDXGIDevice();
@@ -86,4 +97,10 @@ private: //メンバ関数（private）
 	/// </summary>
 	/// <returns>成否</returns>
 	bool CreateFence();
+
+	/// <summary>
+	/// imgui初期化
+	/// </summary>
+	/// <returns>成否</returns>
+	bool InitImgui();
 };

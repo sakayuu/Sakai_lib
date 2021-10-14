@@ -1,13 +1,27 @@
 ﻿#include "Window.h"
+#include "../imgui/imgui_impl_win32.h"
+
+
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 const char Window::windowClassName[] = "サカイライブラリ";
 
 LRESULT Window::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
-	if (msg == WM_DESTROY) {  //ウィンドウが破棄される時に呼ばれる(閉じるアイコンがクリックされた)
+	if (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wparam, lparam)) {
+		return 1;
+	}
+	switch (msg)
+	{
+	case WM_DESTROY: //ウィンドウが破棄される時に呼ばれる(閉じるアイコンがクリックされた)
 		PostQuitMessage(0); //OSに対し「このアプリ」の終了を通知
 		return 0;
+	case WM_KEYDOWN: //キー入力時に呼ばれる
+		if (wparam == VK_ESCAPE) //ESCキーなら
+			PostMessage(hwnd, WM_CLOSE, 0, 0); //終了メッセージを送る
+		break;
 	}
+
 	return DefWindowProc(hwnd, msg, wparam, lparam); //規定処理実行
 }
 
@@ -25,7 +39,7 @@ void Window::CreateGameWindow()
 
 	RECT wrc = { 0,0,window_width,window_height };      //ウィンドウサイズを決める
 	AdjustWindowRect(&wrc, WS_OVERLAPPEDWINDOW, false); //関数を使ってウィンドウサイズを補正
-	
+
 	//ウィンドウオブジェクトの生成
 	hwnd = CreateWindow(
 		window_class.lpszClassName, //クラス名指定

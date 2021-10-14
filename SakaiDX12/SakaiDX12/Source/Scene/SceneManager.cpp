@@ -43,10 +43,10 @@ void SceneManager::Draw()
 
 void SceneManager::AddScene()
 {
-	scenes.emplace("Title", new TitleScene());
-	scenes.emplace("GamePlay", new GameScene());
-	scenes.emplace("GameOver", new GameOverScene());
-	scenes.emplace("GameClear", new GameClearScene());
+	scenes.emplace("Title", new TitleScene("Title"));
+	scenes.emplace("GamePlay", new GameScene("GamePlay"));
+	scenes.emplace("GameOver", new GameOverScene("GameOver"));
+	scenes.emplace("GameClear", new GameClearScene("GameClear"));
 }
 
 void SceneManager::SetScene(const std::string& sceneName)

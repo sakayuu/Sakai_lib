@@ -15,9 +15,8 @@ private: // 静的メンバ変数
 	static const int debugTextTexNumber = 0;
 
 public: // メンバ関数
-
 	// コンストクラタ
-	GameClearScene();
+	GameClearScene(const std::string& sceneName) :Scene(sceneName) {};
 
 	// デストラクタ
 	~GameClearScene();
@@ -34,6 +33,6 @@ public: // メンバ関数
 private:
 	Sprite* sprite = nullptr;
 	Sprite* spriteBG = nullptr;
-	Obj3DManager* obj3DManager;
+	Obj3DManager* obj3DManager = nullptr;
 
 };

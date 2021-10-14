@@ -17,7 +17,7 @@ private: // 静的メンバ変数
 public: // メンバ関数
 
 	// コンストクラタ
-	TitleScene();
+	TitleScene(const std::string& sceneName) :Scene(sceneName) {};
 
 	// デストラクタ
 	~TitleScene();
@@ -34,6 +34,6 @@ public: // メンバ関数
 private:
 	Sprite* sprite = nullptr;
 	Sprite* spriteBG = nullptr;
-	Obj3DManager* obj3DManager;
+	Obj3DManager* obj3DManager = nullptr;
 
 };

@@ -8,20 +8,21 @@ Engine& Engine::Instance() {
 	return instance;
 }
 
-Engine::Engine()
+void Engine::Create()
 {
 	window = new Window();
 	dx_Init = new DX_Init();
 	input = new Input();
 	audio = new Audio();
+	window->CreateGameWindow();  //ウィンドウ作成
+	fps = 0.0;
 }
-Engine::~Engine() {}
 
 bool Engine::Init()
 {
-	window->CreateGameWindow();  //ウィンドウ作成
-	dx_Init->Initialize(window); //DirectX初期化
+	Create();
 
+	dx_Init->Initialize(window); //DirectX初期化
 	// 入力の初期化
 	if (!input->Initialize(window->GetInstance(), window->GetHwnd())) {
 		assert(0);
@@ -59,15 +60,14 @@ void Engine::Run()
 {
 	FPS* fpsFix = new FPS(60); //FPS固定クラス
 
-	while (true) {
-		//メッセージ処理
-		if (window->ProcessMessage()) { break; }
-
+	// メッセージ処理で終了を受け取ったらループを抜ける
+	while (!window->ProcessMessage()) {
+		
 		Update();
 
 		Draw();
 
-		fpsFix->TimeAdjustment();
+		fps = fpsFix->TimeAdjustment();
 	}
 	safe_delete(fpsFix);
 }
@@ -86,6 +86,12 @@ void Engine::Draw()
 	//描画開始
 	dx_Init->BeginDraw();
 
+	ImGui::SetNextWindowPos(ImVec2(0, 0));
+	ImGui::SetNextWindowSize(ImVec2(200, 200));
+	ImGui::Begin("EngineInfo");
+	ImGui::Text("FPS: %f",fps);
+	ImGui::Text("NowScene: %s",sceneManager->GetSceneName().c_str());
+	ImGui::End();
 	sceneManager->Draw();
 
 	//描画終了

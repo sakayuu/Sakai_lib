@@ -1,10 +1,5 @@
 ﻿#include "GameClearScene.h"
 
-GameClearScene::GameClearScene()
-{
-	isNextScene = "Title";
-}
-
 GameClearScene::~GameClearScene()
 {
 }
@@ -47,6 +42,7 @@ void GameClearScene::Initialize(DX_Init* dx_Init, Input* input, Audio* audio, Sc
 	camera->SetDistance(3.0f);
 
 	isSceneEnd = false;
+	isNextScene = "Title";
 }
 
 void GameClearScene::Update()

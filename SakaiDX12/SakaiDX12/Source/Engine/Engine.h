@@ -15,15 +15,22 @@ private:
 
 	Sprite* sprite = nullptr;
 
+	double fps = 0.0;
+
 	//参照が無くなれば自動で解放
 	SceneManager* sceneManager = nullptr;
 
 	//シングルトン
-	Engine();
-	Engine(const Engine&) = delete;
-	void operator= (const Engine&) = delete;
-
+	Engine() = default;
+	~Engine() = default;
 public:
+#pragma region コンストラクタを制限
+	Engine(const Engine&) = delete;
+	Engine& operator= (const Engine&) = delete;
+	Engine(const Engine&&) = delete;
+	Engine& operator= (const Engine&&) = delete;
+#pragma endregion
+
 	//Engineのシングルトンインスタンスを得る
 	static Engine& Instance();
 
@@ -42,5 +49,8 @@ public:
 	// 後処理
 	void Terminate();
 
-	~Engine();
+private:
+
+	void Create();
+
 };

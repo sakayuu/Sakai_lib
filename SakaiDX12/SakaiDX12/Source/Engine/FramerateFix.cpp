@@ -1,10 +1,10 @@
 ﻿#include "FramerateFix.h"
 
-FPS::FPS() :FRAME_TIME(1.0f / 30) {
+FPS::FPS() :FRAME_TIME(1.0f / 30.0) {
 	Initialize();
 }
 
-FPS::FPS(int frame) : FRAME_TIME(1.0f / frame) {
+FPS::FPS(double frame) : FRAME_TIME(1.0f / frame) {
 	Initialize();
 }
 
@@ -16,7 +16,7 @@ void FPS::Initialize()
 	QueryPerformanceCounter(&mTimeStart);
 }
 
-void FPS::TimeAdjustment()
+double FPS::TimeAdjustment()
 {
 	// 今の時間を取得
 	QueryPerformanceCounter(&mTimeEnd);
@@ -31,15 +31,25 @@ void FPS::TimeAdjustment()
 		Sleep(sleepTime); //寝る
 		timeEndPeriod(1);
 
-		return;
+		//return;
 	}
 	fps = 1 / frameTime;
-
+	
+#ifdef _DEBUG
+#ifdef UNICODE
+	std::wstringstream stream;
+#else
 	std::stringstream stream;
-	stream << std::to_string(fps).c_str() << " FPS" << std::endl;
-	OutputDebugString(stream.str().c_str());
-
+#endif
+	mFrameCount++;
+	if (mFrameCount % mDebugCount == 0)
+	{
+		stream << std::to_string(fps).c_str() << " FPS" << std::endl;
+		OutputDebugString(stream.str().c_str());
+	}
+#endif // _DEBUG
 	mTimeStart = mTimeEnd;
+	return fps;
 }
 
 

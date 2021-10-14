@@ -33,6 +33,7 @@ protected: // 静的メンバ変数
 	static const int debugTextTexNumber = 0;
 
 public: // メンバ関数（純粋仮想関数）
+	Scene(const std::string& sceneName) : sceneName(sceneName) {};
 
 	//初期化
 	virtual void Initialize(DX_Init* dx_Init, Input* input, Audio* audio, Score* score) = 0;
@@ -47,6 +48,7 @@ public: // メンバ関数（純粋仮想関数）
 
 	virtual std::string IsNextScene() { return isNextScene; }
 
+	std::string GetMySceneName() { return sceneName; }
 protected: // メンバ変数
 	DX_Init* dx_Init = nullptr;
 	Input* input = nullptr;
@@ -56,6 +58,8 @@ protected: // メンバ変数
 
 	bool isSceneEnd = false;
 	std::string isNextScene;
+
+	std::string sceneName;
 
 	Score* score = nullptr;
 };

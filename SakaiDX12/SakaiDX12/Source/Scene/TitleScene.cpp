@@ -7,11 +7,6 @@
 
 using namespace DirectX;
 
-TitleScene::TitleScene()
-{
-	isNextScene = "GamePlay";
-}
-
 TitleScene::~TitleScene()
 {
 }
@@ -63,6 +58,7 @@ void TitleScene::Initialize(DX_Init* dx_Init, Input* input, Audio* audio, Score*
 	camera->SetDistance(3.0f);
 
 	isSceneEnd = false;
+	isNextScene = "GamePlay";
 }
 
 void TitleScene::Update()

@@ -5,10 +5,10 @@
 #include <iomanip>
 #include <limits>
 
-GameOverScene::GameOverScene()
-{
-	isNextScene = "GamePlay";
-}
+//GameOverScene::GameOverScene()
+//{
+//	
+//}
 
 GameOverScene::~GameOverScene()
 {
@@ -52,6 +52,7 @@ void GameOverScene::Initialize(DX_Init* dx_Init, Input* input, Audio* audio, Sco
 	camera->SetDistance(3.0f);
 
 	isSceneEnd = false;
+	isNextScene = "GamePlay";
 }
 
 void GameOverScene::Update()
